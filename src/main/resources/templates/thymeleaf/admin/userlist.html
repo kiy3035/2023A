@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet">
+</head>
+<body>
+
+<form action="/admin/userList" method="GET">
+    <div>
+        <input type="text" name="userid" id="userid" placeholder="아이디로 검색">
+    </div>
+        <button>검색</button>
+</form>
+
+<div class="container">
+    <table>
+        <h2> 회원 목록 조회[관리자] </h2>
+        <thead>
+            <tr>
+                <th>프로필</th>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>등급</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="u : ${users}">
+                <td><img src="https://imhannah.me/common/img/default_profile.png" width="200" height="200"></td>
+                <td>
+                    <a th:href="@{'/admin/userList/' + ${u.userid}}">
+                    <span th:text="${u.userid}"></span>
+                </a>
+                </td>
+                <td th:text="${u.username}"></td>
+                <td th:text="${u.user_role}"></td>
+            </tr>
+        </tbody>
+
+
+    </table>
+</div>
+
+<button type="button" onclick="location.href = '/'">홈으로</button>
+
+<div style=" text-align: center;">
+<th:block th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
+    <a th:if="${page != nowPage}" th:href="@{/admin/userList(page = ${page - 1}, userid = ${param.userid})}" th:text="${page}"></a>
+    <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+</th:block>
+</div>
+
+</body>
+
+</html>

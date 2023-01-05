@@ -1,0 +1,77 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+          charset="utf-8">
+</head>
+
+<body>
+<h2> 헬퍼 등록 </h2>
+<form class="abc" role="form" th:action="@{/manager/signUp/Helper}" enctype="multipart/form-data"
+      th:object="${helper1}" id="signupForm" modelAttribute="helper1" method="POST">
+
+    <div>
+        <label>프로필 사진</label>
+        <input multiple type="file" name="file">
+    </div>
+    <br/>
+
+    <div>
+        <label for="helper_id" >아이디</label>
+        <input type="text"  id="helper_id" name="helper_id" th:value="${helper1.helper_id}" readonly >
+    </div>
+    <br/>
+
+
+    <div>
+        <label>거주 지역</label>
+        <input type="text" name="helper_location" th:value="${helper1.helper_location}" placeholder="지역을 입력하세요.">
+        <span th:text="${valid_helper_location}"></span>
+    </div>
+    <br/>
+
+
+    <fieldset>
+        <legend>희망하는 등원 or 하원을 고르세요</legend>
+        <p>복수 선택 가능</p>
+        <label><input type="checkbox" name="helper_go" value="Y">등원</label>
+        <label><input type="checkbox" name="helper_come" value="Y">하원</label>
+    </fieldset>
+    <br/>
+
+
+    <div>
+        <label>한줄 소개</label>
+        <input type="text" name="helper_comment" th:value="${helper1.helper_comment}" placeholder="한줄 소개를 입력하세요.">
+        <span th:text="${valid_helper_comment}"></span>
+    </div>
+    <br/>
+
+    <div>
+        <label>카카오톡 오픈링크</label>
+        <input type="text" name="helper_kakao" th:value="${helper1.helper_kakao}" placeholder="오픈링크를 입력하세요.">
+        <span th:text="${valid_helper_kakao}"></span>
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="helper_reccount"></label>
+        <input type="hidden"
+               class="form-control" id="helper_reccount" name="helper_reccount"
+               value=0 >
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">가입하기</button>
+    <button type="button" onclick="history.go(-1);">이전으로</button>
+    </div>
+
+
+
+
+</form>
+</body>
+
+</html>

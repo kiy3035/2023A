@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="utf-8">
+
+<body>
+<div class="container">
+  <table>
+    <h2> 헬퍼 상세 조회[관리자] </h2>
+    <thead>
+    <tr>
+      <th>아이디</th>
+      <th>이름</th>
+      <th>위치</th>
+      <th>한줄 소개</th>
+      <th>카카오 링크</th>
+      <th>추천수</th>
+      <th>등원</th>
+      <th>하원</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="h : ${helperDetail}">
+      <td th:text="${h.helper_id}"></td>
+      <td th:text="${h.username}"></td>
+      <td th:text="${h.helper_location}"></td>
+      <td th:text="${h.helper_comment}"></td>
+      <td th:text="${h.helper_kakao}"></td>
+      <td th:text="${h.helper_reccount}"></td>
+      <td th:text="${h.helper_go}"></td>
+      <td th:text="${h.helper_come}"></td>
+      <td>
+
+
+
+    <tfoot>
+    <td colspan="5" class="tablefoot"></td>
+    </tfoot>
+  </table>
+
+  <div class="col">
+    <button class="w-50 btn btn-secondary btn-lg"
+            th:onclick="|location.href='@{/admin/helperList}'|"
+            type="button">헬퍼 목록
+    </button>
+    <button type="button" onclick="location.href = '/'">홈으로</button>
+  </div>
+</div>
+
+</tr>
+</tbody>
+</div> <!-- /container -->
+</body>
+
+</html>

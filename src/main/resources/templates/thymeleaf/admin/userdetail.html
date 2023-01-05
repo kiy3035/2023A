@@ -1,0 +1,133 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<meta charset="utf-8">
+
+<body>
+<div class="container">
+    <table>
+        <h2> 회원 상세 조회[관리자] </h2>
+        <thead>
+        <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+            <th>나이</th>
+            <th>연락처</th>
+            <th>한줄 소개</th>
+            <th>카카오링크</th>
+            <th>등급</th>
+            <th>등급 변경</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="u : ${userDetail}">
+            <td th:text="${u.userid}"></td>
+            <td th:text="${u.username}"></td>
+            <td th:text="${u.useremail}"></td>
+            <td th:text="${u.user_age}"></td>
+            <td th:text="${u.user_tel}"></td>
+            <td th:text="${u.user_comment}"></td>
+            <td th:text="${u.user_kakao}"></td>
+            <td th:text="${u.user_role}"></td>
+            <td>
+                <select id="role">
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="USER">USER</option>
+                </select>
+                <button type="button" th:userid="${u.userid}"
+                        th:onclick="updateRole(this.getAttribute('userid'))">변경
+                </button>
+            </td>
+
+<!--            <div class="a">-->
+<!--                <a th:href="@{|/admin/deleteuser/${u.userid}|}">삭제</a>-->
+<!--            </div>-->
+
+            <td>
+                <button type="button" th:userid="${u.userid}"
+                        th:onclick="deleteuser(this.getAttribute('userid'))"/>
+                삭제</button></td>
+        <tfoot>
+        <td colspan="5" class="tablefoot"></td>
+        </tfoot>
+    </table>
+
+    <div class="col">
+        <button class="w-50 btn btn-secondary btn-lg"
+                th:onclick="|location.href='@{/admin/userList}'|"
+                type="button">유저 목록
+        </button>
+        <button type="button" onclick="location.href = '/'">홈으로</button>
+    </div>
+</div>
+
+</tr>
+</tbody>
+</div> <!-- /container -->
+</body>
+<link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!-- 자바스크립트 코드 추가 -->
+<script th:inline="javascript" type="text/javascript">
+
+    var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
+    function updateRole(userid) {
+
+        if (confirm(userid + "의 권한을 " + $('#role').val() + " 으로 변경 하시겠습니까?")) {
+
+            var param = {
+                userid: userid,
+                role: $('#role').val()
+            }
+
+            $.ajax({
+                type: "POST",
+                url: contextPath + '/admin/modifyRole',
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (result) {
+                    console.log(result);
+                    alert('변경되었습니다');
+                    location.href = contextPath +"/admin/userList";
+                },
+            })
+
+        }
+    }
+
+
+    function deleteuser(userid) {
+
+<!--        const userid = /*[[${userDetail.userid}]]*/;-->
+
+        console.log(userid);
+        if (confirm(userid + "를 삭제하시겠습니까?")) {
+
+            let param = {
+            userid : userid
+            }
+
+         $.ajax({
+                type: "POST",
+                url: contextPath + '/admin/deleteUser',
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    alert('삭제되었습니다');
+                    location.href = contextPath +"/admin/userList";
+                },
+            })
+    }
+ }
+</script>
+</html>
