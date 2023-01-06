@@ -1,9 +1,6 @@
 package kiy3035.abc.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -37,11 +34,11 @@ public class Helper1 {
 
     private String helper_filepath;
 
+    private String sample6_postcode;
+    private String sample6_address;
+    private String sample6_detailAddress;
+    private String sample6_extraAddress;
 
-//    // 연관관계 주인 : Helper1
-//    @OneToOne
-//    @JoinColumn(name = "user_id")
-//    private User1 user1;
 
 
 }

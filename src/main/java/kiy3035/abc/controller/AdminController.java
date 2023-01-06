@@ -116,6 +116,7 @@ public class AdminController {
         return "thymeleaf/admin/parentslist";
     }
 
+
     // 학부모 상세 조회
     @GetMapping("/parentsList/{parents_id}")
     public String parentsDetail(@PathVariable("parents_id") String parents_id, Model model) {
@@ -178,6 +179,7 @@ public class AdminController {
 
         return map;
     }
+
 
 
 

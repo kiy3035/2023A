@@ -79,6 +79,8 @@ public class ParentsController {
         model.addAttribute("searchUrl", "http://localhost:8080");
         log.info("학부모 등록 성공");
 
+        System.out.println("코멘트요_____" + parents1.getParents_comment());
+
         return "thymeleaf/message";
     }
 

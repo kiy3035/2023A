@@ -23,12 +23,15 @@ public interface UserRepository extends JpaRepository<User1, String>  {
    @Query("select userid from User1  where username = :username and useremail = :useremail")
     String findUserId(@Param("username") String username, @Param("useremail") String useremail);
 
+
    @Query("select userid from User1  where userid = :userid and username = :username and useremail = :useremail")
     String findUserPw(@Param("userid") String userid, @Param("username") String username, @Param("useremail") String useremail);
+
 
    @Modifying
    @Query("update User1 set password = :password where userid = :userid")
     void ChangePw(@Param("userid") String userid, @Param("password") String password);
+
 
     // 중복 검사
     boolean existsByUserid(String userid);
@@ -37,6 +40,7 @@ public interface UserRepository extends JpaRepository<User1, String>  {
     // 모든 회원 조회 [관리자]
     @Query("select u from User1 u order by u.username asc")
     Page<User1> findAllAsc(Pageable pageable);
+
 
     // 회원 삭제 [관리자]
     @Transactional
