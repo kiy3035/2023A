@@ -8,6 +8,7 @@ import kiy3035.abc.service.CheckUseridValidator;
 import kiy3035.abc.service.HelperService;
 import kiy3035.abc.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,19 +76,12 @@ public class HelperController {
             return "thymeleaf/signup_helper";
         }
 
-//        String[] arrName = request.getParameterValues("name");
 
         String imageFileName = helperService.uploadFile(file);
 
         helper1.setHelper_filepath(imageFileName);
-
-
-//        String helper_loc = helper1.getSample6_postcode() + helper1.getSample6_address() + helper1.getSample6_detailAddress() + helper1.getSample6_extraAddress();
-        String helper_loc = helper1.getHelper_location();
-        helper1.setHelper_location(helper_loc);
-        System.out.println("헬퍼집주소는" + helper_loc);
-
         helperRepository.save(helper1);
+
         // 회원가입 성공시 alert 창 띄우기
         model.addAttribute("message", "헬퍼 등록이 완료되었습니다");
         model.addAttribute("searchUrl", "http://localhost:8080");

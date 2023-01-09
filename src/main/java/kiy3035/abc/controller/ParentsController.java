@@ -54,7 +54,9 @@ public class ParentsController {
 
     @PostMapping("/manager/signUp/Parents")
     public String signUp(@Valid Parents1 parents1, Errors errors, Model model, @RequestParam MultipartFile file) throws IOException {
+
         log.info("학부모 등록 실패");
+
         if (errors.hasErrors()) {
             // 회원가입 실패시, 입력 데이터를 유지
             model.addAttribute("Parents1", parents1);

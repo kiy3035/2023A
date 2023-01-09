@@ -8,11 +8,6 @@
 </head>
 
 <body>
-
-<script type="text/javascript">
-
-    </script>
-
 <h2> 헬퍼 등록 </h2>
 <form class="abc" role="form" th:action="@{/manager/signUp/Helper}" enctype="multipart/form-data"
       th:object="${helper1}" id="signupForm" modelAttribute="helper1" method="POST">
@@ -32,13 +27,12 @@
 
     <div>
         <label>주소</label></br>
-<!--        <input type="text" name="helper_location" th:value="${helper1.helper_location}" placeholder="지역을 입력하세요.">-->
-        <input type="text" name="sample6_postcode" id="sample6_postcode" th:value="${helper1.sample6_postcode}" placeholder="우편번호" readonly>
+        <input type="text" name="sample6_postcode" id="sample6_postcode"  placeholder="우편번호" readonly>
         <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
-        <input type="text" name="sample6_address" id="sample6_address" th:value="${helper1.sample6_address}" placeholder="주소" readonly><br>
-        <input type="text" name="sample6_detailAddress" id="sample6_detailAddress" th:value="${helper1.sample6_detailAddress}" placeholder="상세주소" onchange="addrdetail()">
-        <input type="text" name="sample6_extraAddress" id="sample6_extraAddress" th:value="${helper1.sample6_extraAddress}" placeholder="참고항목">
-        <input type="hidden" name="helper_location" id="sell7" th:value="${helper1.helper_location}">
+        <input type="text" name="sample6_address" id="sample6_address" placeholder="주소" readonly><br>
+        <input type="text" name="sample6_detailAddress" id="sample6_detailAddress"  placeholder="상세주소" onchange="addrdetail()">
+        <input type="text" name="sample6_extraAddress" id="sample6_extraAddress"  placeholder="참고항목">
+        <input type="hidden" name="helper_addr" id="helper_addr" value="">
     </div>
     <br/>
 
@@ -142,10 +136,13 @@
 
 }
 
-function addrdetail(){
+function addrdetail(helper_addr){
         var addrdetail = document.getElementById('sample6_detailAddress').value;
-        var helper_location = addr + extraAddr + addrdetail
-        console.log(helper_location)
-    }
+        var helper_addr = addr + extraAddr + addrdetail
+        console.log(helper_addr)
+
+       document.getElementById("helper_addr").value = helper_addr
+            }
+
 </script>
 </html>

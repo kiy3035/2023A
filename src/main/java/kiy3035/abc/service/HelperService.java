@@ -1,14 +1,19 @@
 package kiy3035.abc.service;
 
 
+import kiy3035.abc.domain.Helper1;
+import kiy3035.abc.domain.User1;
 import kiy3035.abc.repository.HelperRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -16,7 +21,6 @@ import java.util.UUID;
 public class HelperService {
 
        HelperRepository helperRepository;
-
 
     // 헬퍼 프로필 사진 업로드
     public String uploadFile(MultipartFile file) throws IOException {
@@ -28,5 +32,6 @@ public class HelperService {
 
     return imageFileName;
     }
+
 
 }

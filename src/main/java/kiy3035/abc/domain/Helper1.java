@@ -19,7 +19,7 @@ public class Helper1 {
     private String helper_id;
 
     @NotBlank(message = "사는 곳을 입력하세요")
-    private String helper_location;
+    private String helper_addr;
 
     @NotBlank(message = "한줄 소개를 입력하세요")
     private String helper_comment;
@@ -34,10 +34,6 @@ public class Helper1 {
 
     private String helper_filepath;
 
-    private String sample6_postcode;
-    private String sample6_address;
-    private String sample6_detailAddress;
-    private String sample6_extraAddress;
 
 
 

@@ -97,7 +97,7 @@ public class AdminController {
     @GetMapping("/helperList/{helper_id}")
     public String helperDetail(@PathVariable("helper_id") String helper_id, Model model) {
 
-        model.addAttribute("helperDetail", helperRepository.findHelperDetail());
+        model.addAttribute("helperDetail", helperRepository.findHelperDetail(helper_id));
 
         log.info("헬퍼 상세 조회" + model);
 
@@ -121,7 +121,7 @@ public class AdminController {
     @GetMapping("/parentsList/{parents_id}")
     public String parentsDetail(@PathVariable("parents_id") String parents_id, Model model) {
 
-        model.addAttribute("parentsDetail", parentsRepository.findParentsDetail());
+        model.addAttribute("parentsDetail", parentsRepository.findParentsDetail(parents_id));
 
         log.info("학부모 상세 조회" + model);
 
@@ -129,32 +129,7 @@ public class AdminController {
     }
 
 
-
-                        // 되는 로직  +  userdetail에 a href 와 관련
-//    // 회원 삭제
-//    @GetMapping("/deleteuser/{userid}")
-//    public String deleteuser(@PathVariable String userid) {
-//        userService.deleteuser(userid);
-//
-//        System.out.println("삭제 된 아이디: " + userid);
-//        log.info("삭제됨요");
-//        return "redirect:/admin/userList";
-//    }
-
-
-
-                            //requestparam / body 차이점 인지하기//
-//    // 회원 삭제
-//    @PostMapping("/deleteuser")
-//    public String deleteuser(@RequestParam String userid) {
-//        userService.deleteuser(userid);
-//
-//        System.out.println("삭제 된 아이디: " + userid );
-//        log.info("삭제됨요");
-//        return "redirect:/admin/userList";
-//// return "thymeleaf/admin/userlist"; 로 하니까 개같은 페이지뜸 ㅅㅂ
-//    }
-
+    // 유저 권한 변경
     @PostMapping("/modifyRole")
     @ResponseBody
     public Map<String,Object> ModifyRole(@RequestBody Map<String, Object> param) throws IOException {
@@ -168,6 +143,7 @@ public class AdminController {
     }
 
 
+    // 유저 삭제
     @PostMapping("/deleteUser")
     @ResponseBody // 자바 객체를 HTTP 응답 본문의 객체로 변
     public Map<String,Object> deleteUser(@RequestBody Map<String,Object> param) throws IOException {
@@ -183,4 +159,38 @@ public class AdminController {
 
 
 
+
+
+
+
+
+
+
+
+
+
+    // 되는 로직  +  userdetail에 a href 와 관련
+//    // 회원 삭제
+//    @GetMapping("/deleteuser/{userid}")
+//    public String deleteuser(@PathVariable String userid) {
+//        userService.deleteuser(userid);
+//
+//        System.out.println("삭제 된 아이디: " + userid);
+//        log.info("삭제됨요");
+//        return "redirect:/admin/userList";
+//    }
+
+
+
+    //requestparam / body 차이점 인지하기//
+//    // 회원 삭제
+//    @PostMapping("/deleteuser")
+//    public String deleteuser(@RequestParam String userid) {
+//        userService.deleteuser(userid);
+//
+//        System.out.println("삭제 된 아이디: " + userid );
+//        log.info("삭제됨요");
+//        return "redirect:/admin/userList";
+//// return "thymeleaf/admin/userlist"; 로 하니까 개같은 페이지뜸 ㅅㅂ
+//    }
 }

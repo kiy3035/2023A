@@ -29,6 +29,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.junit.jupiter:junit-jupiter:5.8.1' // 테스트 하는 것
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-wepsocket'
 
     // jsp 설정
     implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'

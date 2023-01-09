@@ -1,6 +1,7 @@
 package kiy3035.abc.repository;
 
 import kiy3035.abc.domain.Helper1;
+import kiy3035.abc.domain.User1;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,7 +26,7 @@ public interface HelperRepository extends JpaRepository<Helper1, String> {
     // 헬퍼 상세 조회
     @Query("select " +
             "h.helper_id as helper_id, " +
-            "h.helper_location as helper_location, " +
+            "h.helper_addr as helper_addr, " +
             "h.helper_comment as helper_comment, " +
             "h.helper_kakao as helper_kakao, " +
             "h.helper_reccount as helper_reccount, " +
@@ -33,8 +34,8 @@ public interface HelperRepository extends JpaRepository<Helper1, String> {
             "h.helper_come as helper_come, " +
             "u.username as username " +
             "from User1 u, Helper1 h " +
-            "where u.userid = h.helper_id")
-    List<Map<String, Object>> findHelperDetail();
+            "where u.userid = h.helper_id and h.helper_id = :helper_id")
+    List<Map<String, Object>> findHelperDetail(@Param("helper_id") String helper_id);
 
 
 
