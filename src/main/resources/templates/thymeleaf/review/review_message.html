@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 자바스크립트는 문장 끝에 ; 안붙여도 되지만
+      가능하면 ; 붙이는 습관을 들이자 -->
+<script th:inline="javascript">
+
+  /*<![CDATA[*/
+
+  // 컨트롤러에서 메세지를 받아서 alert 메세지 띄움
+  var message = [[${message}]];
+  alert(message);
+
+  // location.replace -> 페이지 이동
+  location.replace([[${searchUrl}]]);
+
+  /*]]>*/
+
+</script>
+
+</body>
+</html>

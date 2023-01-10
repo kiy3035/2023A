@@ -1,0 +1,3 @@
+[templates/thymeleaf/board] .html 파일에서 boardService:34 문제가 있다는 건
+높은 확률로 <<<td>파일첨부</td><td><input type="file" name="file">>>
+이걸 빼먹었을 것 [주의!]

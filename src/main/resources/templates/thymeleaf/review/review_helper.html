@@ -1,0 +1,97 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>헬퍼 리뷰 작성폼</title>
+  <link rel="stylesheet" type="text/css" href="/css/Eclipse_Form.css"/>
+
+  <!-- 식이가 만든 navi -->
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    h2 {text-align : center;}
+  </style>
+</head>
+<body>
+<br>
+<h2><b>헬퍼 리뷰 (학부모가 작성)</b></h2>
+<br>
+<form action="/review/helperreviewprocess" method="post" >
+  <table>
+    <tr>
+      <td>제목</td>
+      <td><input name="reviewtitle" type="text"></td>
+    </tr>
+
+    <!--<tr>
+      <td>현재시간</td>
+      <td><p name="reviewregdate" id="clock"></p></td>
+      <td><input name="reviewregdate" value="2023-01-05"></input></td>
+    </tr>-->
+
+    <!-- 임시로 일단 작성자 넣어둠 -->
+    <!-- 식이가 해둔 유저정보 가져오기를 나도 해야 함.. ㅎㅎ-->
+    <tr>
+      <td>작성자</td>
+      <td><input name="reviewpidx" value="sky_falling"></td>
+    </tr>
+
+    <tr>
+      <td>리뷰 대상자</td>
+      <td><input name="reviewhidx" value="리뷰 당하는 사람"></td>
+    </tr>
+
+    <tr>
+      <td>내용</td>
+      <td><textarea name="reviewcont"></textarea></td>
+    </tr>
+
+    <tr>
+      <td>게시판 분류</td>
+      <td>
+        <select name="reviewmenuidx" size="1">
+          <option value="2">2. 헬퍼를 리뷰 (학부모가 작성)</option>
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>리뷰 추천수</td>
+      <td><input name="reviewrecommend" value="0" readonly></input></td>
+    </tr>
+
+    <tr>
+      <td colspan="2">
+        <button type="submit">작성</button>
+        <button type="reset">초기화</button>
+      </td>
+    </tr>
+  </table>
+
+  <!-- 작성시간 관련 스크립트 -->
+  <script>
+    var Target = document.getElementById("clock");
+    function clock() {
+        var time = new Date();
+
+        var month = time.getMonth();
+        var date = time.getDate();
+        var day = time.getDay();
+        var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+        var hours = time.getHours();
+        var minutes = time.getMinutes();
+        var seconds = time.getSeconds();
+
+        Target.innerText =
+        `${month + 1}월 ${date}일 ${week[day]}요일 ` +
+        `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+
+    }
+    clock();
+    setInterval(clock, 1000); // 1초마다 실행
+</script>
+</form>
+</body>
+</html>

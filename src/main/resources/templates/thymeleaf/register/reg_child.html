@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>아이 등록 작성폼</title>
+    <link rel="stylesheet" type="text/css" href="/css/Eclipse_Form.css"/>
+
+    <!-- 식이가 만든 navi -->
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+
+    <style>
+      h2 { text-align : center; }
+      table label { width : 100%; text-align : center;}
+      #radio { width : 30%; }
+    </style>
+</head>
+
+<body>
+<br>
+<h2><b>아이 등록</b></h2>
+<br>
+<!--<div class="layout">-->
+<!-- http://localhost:8080/board/writedo 로 이동 -->
+<form action="/board/writeprocess" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td colspan="2" id="radio">
+                <label><input name="posttitle" type="radio" value="등원">1. 등원</label>
+                <label><input name="posttitle" type="radio" value="하원">2. 하원</label>
+                <label><input name="posttitle" type="radio" value="전부">3. 전부</label>
+            </td>
+        </tr>
+
+        <tr>
+            <td>파일첨부</td>
+            <td><input type="file" name="file">
+        </tr>
+
+        <!-- 임시로 일단 작성자 넣어둠 -->
+        <!-- 식이가 해둔 유저정보 가져오기를 나도 해야 함.. ㅎㅎ-->
+        <tr>
+            <td>1줄 소개, 시급 (postcont 임시)</td>
+            <td><input name="postcont" value="ㅎㅇㅎㅇ 15000 콜?"></td>
+        </tr>
+
+        <tr>
+            <td>주소 (postwriter 임시)</td>
+            <td><textarea name="postwriter" value="임시로 채워놓음"></textarea></td>
+        </tr>
+
+        <tr>
+            <td>게시판 분류</td>
+            <td>
+                <select name="postmenuidx" size="1">
+                    <option value="1">1. 아이 등록</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td colspan="2">
+                <button type="submit">작성</button>
+                <button type="reset">초기화</button>
+            </td>
+        </tr>
+    </table>
+</form>
+</div>
+</body>
+
+
+</html>

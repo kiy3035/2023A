@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>게시물 작성폼</title>
+  <link rel="stylesheet" type="text/css" href="/css/Eclipse_Form.css"/>
+
+  <!-- 식이가 만든 navi -->
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <!--<style>
+    .layout {
+        width : 90%;
+        margin : 0 auto;
+        margin-top : 40px;
+    }
+
+    .layout input {
+        height : 32px;
+        width : 85%;
+        box-sizing : border-box;
+        margin-top : 0;
+    }
+
+    .layout textarea {
+        width : 85%;
+        margin-top : 10px;
+        min-height : 300px;
+    }
+
+    .layout #boardwriteTable, tr, td {
+        border : 1px solid  #c0c0c0;
+        border-collapse : collapse;
+    }
+  </style>-->
+</head>
+
+<body>
+<!--<div class="layout">-->
+  <!-- http://localhost:8080/board/writedo 로 이동 -->
+  <form action="/board/writeprocess" method="post" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <td>제목</td>
+        <td><input name="posttitle" type="text"></td>
+      </tr>
+
+      <!-- 임시로 일단 작성자 넣어둠 -->
+      <!-- 식이가 해둔 유저정보 가져오기를 나도 해야 함.. ㅎㅎ-->
+      <tr>
+        <td>작성자</td>
+        <td><input name="postwriter" value="sky_high"></td>
+      </tr>
+
+
+      <tr>
+        <td>현재시간</td>
+        <td><p name="postregdate" id="clock"></p></td>
+      </tr>
+
+
+      <tr>
+        <td>내용</td>
+        <td><textarea name="postcont"></textarea></td>
+      </tr>
+
+      <tr>
+        <td>게시판 분류</td>
+        <td>
+          <select name="postmenuidx" size="1">
+            <option value="">선택하세요</option>
+            <option value="1">1. 아이 등록</option>
+            <option value="2">2. 헬퍼 등록</option>
+            <option value="3">3. 등/하원 부탁해요</option>
+            <option value="4">4. 등/하원 맡을게요</option>
+          </select>
+        </td>
+      </tr>
+
+
+      <!--파일첨부-->
+      <tr>
+        <td>파일첨부</td>
+        <td><input type="file" name="file">
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <button type="submit">작성</button>
+          <button type="reset">초기화</button>
+        </td>
+      </tr>
+    </table>
+
+<!-- 작성시간 관련 스크립트 -->
+<script>
+    var Target = document.getElementById("clock");
+    function clock() {
+        var time = new Date();
+
+        var month = time.getMonth();
+        var date = time.getDate();
+        var day = time.getDay();
+        var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+        var hours = time.getHours();
+        var minutes = time.getMinutes();
+        var seconds = time.getSeconds();
+
+        Target.innerText =
+        `${month + 1}월 ${date}일 ${week[day]}요일 ` +
+        `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
+
+    }
+    clock();
+    setInterval(clock, 1000); // 1초마다 실행
+</script>
+  </form>
+</body>
+
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>리뷰글 상세 페이지</title>
+  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    h2 {text-align : center;}
+  </style>
+</head>
+<body>
+  <br>
+  <h2><b>리뷰 상세 내용</b></h2>
+  <br>
+  <table>
+    <tr>
+      <td>작성자</td>
+        <span th:if="${review1.reviewmenuidx == 1}">헬퍼가 작성</span>
+        <span th:unless="${review1.reviewmenuidx == 1}">학부모가 작성</span>
+      <td>작성시간</td>
+      <td th:text="${review1.reviewregdate}"></td>
+    </tr>
+    <tr>
+      <td>리뷰글 번호</td>
+      <td th:text="${review1.reviewidx}"></td>
+      <td>분류</td>
+      <td th:switch="${review1.reviewmenuidx}">
+        <span th:case="1">학부모를 리뷰</span>
+        <span th:case="2">헬퍼를 리뷰</span>
+      </td>
+    </tr>
+    <tr>
+      <td>글 제목</td>
+      <td colspan="3" th:text="${review1.reviewtitle}"></td>
+    </tr>
+    <tr>
+      <td>글 내용</td>
+      <td colspan="3" th:text="${review1.reviewcont}"></td>
+    </tr>
+    <tr>
+      <td colspan="4">
+        <!-- @GetMapping("/board/delete") + '원하는 값 = ${~~~}' -->
+        &nbsp;&nbsp;&nbsp;<a th:href="@{/review/delete(reviewidx = ${review1.reviewidx})}">글 삭제</a>
+        &nbsp;&nbsp;&nbsp;<a th:href="@{/review/modify/{reviewidx}(reviewidx = ${review1.reviewidx})}">글 수정</a>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>

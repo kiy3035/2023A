@@ -1,0 +1,7 @@
+JPA Repository
+
+1. findBy(컬럼이름)
+= 컬럼에서 키워드를 넣어서 찾겠다는 의미
+
+2. findBy(컬럼이름)Containing
+= 컬럼에서 키워드가 포함된 것을 찾겠다는 의미
