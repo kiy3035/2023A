@@ -11,7 +11,7 @@ import teamgreen.abc.service.BoardService;
 import teamgreen.abc.service.UserService;
 
 @Controller
-public class MypageCotroller {
+public class MypageController {
     @Autowired
     UserService userService;
 

@@ -22,7 +22,7 @@ public class ParentsService {
         UUID uuid = UUID.randomUUID();
         String imageFileName = uuid +  "_Parents_profile_" + file.getOriginalFilename() ;
 
-        file.transferTo(new File("C:\\PROJECT\\abc 20230103\\src\\main\\resources\\static\\parents_img\\" +  imageFileName));
+        file.transferTo(new File("C:\\PROJECT\\abc 2023\\src\\main\\resources\\static\\parents_img\\" +  imageFileName));
 
     return imageFileName;
     }

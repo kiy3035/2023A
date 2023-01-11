@@ -27,11 +27,12 @@ public class Helper1 {
     @NotBlank(message = "카카오톡 오픈링크를 입력하세요")
     private String helper_kakao;
 
-    private Long helper_reccount;
+    private Long helper_reccount;   // 기본값 0
 
     private String helper_go;
     private String helper_come;
 
+    @NotBlank(message = "프로필 사진을 등록하세요")
     private String helper_filepath;
 
 

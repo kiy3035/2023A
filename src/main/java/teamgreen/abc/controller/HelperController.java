@@ -47,7 +47,7 @@ public class HelperController {
         log.info("헬퍼로 등록할 principal아이디: " + principal);
         log.info("헬퍼로 등록할 helper1아이디: " + helper1);
 
-        return "thymeleaf/signup_helper";
+        return "thymeleaf/signup/signup_helper";
     }
 
 
@@ -67,7 +67,7 @@ public class HelperController {
 
             }
             // 회원가입 페이지로 다시 리턴
-            return "thymeleaf/signup_helper";
+            return "thymeleaf/signup/signup_helper";
         }
 
 
@@ -83,7 +83,7 @@ public class HelperController {
 
 
 
-        return "thymeleaf/message";
+        return "thymeleaf/signup/message";
     }
 
 

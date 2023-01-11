@@ -1,0 +1,92 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+
+  <script>
+
+
+  </script>
+</head>
+
+<body>
+<h2>아이 등록</h2>
+
+<form class="abc" role="form" th:action="@{/manager/signUp/Parents/Child}"
+      th:object="${p_child1}" id="signupForm" modelAttribute="p_child1" method="POST">
+
+
+  <div>
+    <label for="p_id" > 학부모 아이디 </label>
+    <input type="text"  id="p_id" name="p_id" th:value="${p_id}" readonly >
+  </div>
+  <br/>
+
+  <div>
+    <label>아이 이름</label>
+    <input type="text" id="p_childname" name="p_childname" placeholder="아이의 이름을 입력하세요.">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childname}"></span>
+
+  </div>
+  <br/>
+
+  <div>
+    <label>아이 성별</label>
+    <input type='radio'
+           name='p_childgender'
+           value='남성' />남성
+    <input type='radio'
+           name='p_childgender'
+           value='여성' />여성
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childgender}"  ></span>
+  </div>
+  <br/>
+
+  <div>
+    <label>아이 나이</label>
+    <input type="number" min="0" max="8" name="p_childage"  placeholder="나이">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childage}"></span>
+  </div>
+  <br/>
+
+  <div>
+    <label>아이 한줄 소개</label>
+    <input type="text" id="p_childcomment" name="p_childcomment"  placeholder="아이 한줄 소개를 입력하세요.">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childcomment}"></span>
+  </div>
+  <br/>
+  </div>
+
+  <div id="one" class="wrapper">
+  </div>
+  <button id="makeBtn">추가 등록</button>
+
+
+  <button type="submit" class="btn btn-primary">가입하기</button>
+  <button type="button" onclick="history.go(-1);">이전으로</button>
+
+
+</form>
+</body>
+
+<script>
+
+    document.querySelector("#makeBtn").addEventListener("click",function(){
+
+        //-동적으로 요소 추가하고 자식요소로 추가하기 과정
+        //1. 동적으로 만든 요소를 만들고 참조값을 p 변수에 담기
+        let p1 = document.createElement("p");
+
+        //2. 만든 p요소에 class 속성 추가하기
+        p1.setAttribute("class","my-class");
+
+        //3.만든 p요소에 innerText 추가하기
+        p1.innerText = "p1요소입니다.";
+
+        //4. 만든 p요소를 id가 one인 요소(div)의 자식 요소로 추가하기
+        document.querySelector("#one").append(p1);
+
+    });
+
+</script>
+
+</html>

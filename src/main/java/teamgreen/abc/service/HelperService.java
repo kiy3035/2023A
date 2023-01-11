@@ -23,7 +23,7 @@ public class HelperService {
         UUID uuid = UUID.randomUUID();
         String imageFileName = uuid +  "_Helper_profile_" + file.getOriginalFilename() ;
 
-        file.transferTo(new File("C:\\PROJECT\\abc 20230103\\src\\main\\resources\\static\\helper_img\\" +  imageFileName));
+        file.transferTo(new File("C:\\PROJECT\\abc 2023\\src\\main\\resources\\static\\helper_img\\" +  imageFileName));
 
     return imageFileName;
     }

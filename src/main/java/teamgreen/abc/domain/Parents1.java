@@ -31,6 +31,7 @@ public class Parents1 {
     private String parents_go;
     private String parents_come;
 
+    @NotBlank(message = "프로필 사진을 등록하세요")
     private String parents_filepath;
 
 

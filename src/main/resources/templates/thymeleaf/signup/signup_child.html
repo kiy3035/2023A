@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step06_quiz.html</title>
+</head>
+<body>
+<h1>array 테스트중</h1>
+<input type="text" id="inputName" placeholder="이름입력...">
+<button onclick="saveToArray()">배열에 저장하기</button>
+<button onclick="printToConsole()">저장된 내용 콘솔에 순서대로 출력하기</button>
+<button onclick="printToList()">저장된 내용을 화면에 출력하기</button>
+<button onclick="printToList2()">저장된 내용을 화면에 출력하기2</button>
+<p id="printWhat"></p>
+<p id="printNames"></p>
+<h1>이름 목록입니다</h1>
+<ul id="nameList"></ul>
+<h1>이름 목록입니다2</h1>
+<ul id="nameList2"></ul>
+</body>
+
+<script>
+        //입력한 이름을 저장할 예정인 배열(array) 미리 만들어 놓기
+        let names = [];
+
+        //배열에 저장해주는 함수
+        function saveToArray(){
+
+            //input 요소에 입력한 문자열을 data에 대입
+            let data = document.querySelector("#inputName").value;
+
+            //data값을 array에 push
+            names.push(data);
+
+            //textbox 비우고 focus 주기
+            document.querySelector("#inputName").value = "";
+            document.querySelector("#inputName").focus();
+
+            //무엇이 추가되었는지 화면에 나타내주기
+            let message = data + " 추가되었습니다. (총" + names.length + "개)";
+            document.querySelector("#printWhat").innerText = message;
+            document.querySelector("#printNames").innerText = "배열 names = [" + names + "]";
+
+
+        }
+
+        //콘솔에 저장된 배열을 출력해주는 함수
+        function printToConsole(){
+            for(let i=0; i<names.length; i++){
+                console.log(names[i]);
+            }
+        }
+
+        //화면에 동적으로 요소 추가시키기! ---for문
+        //화면에 요소 추가시키면서 배열 내용 출력해주는 함수 ★★★★★(자주 반복해보기!!!!)
+        function printToList(){
+            //ul의 자식 요소를 모두 삭제
+            //이걸 쓰지 않으면 누를때마다 배열의 요소가 모두 출력된다.
+            document.querySelector("#nameList").innerText = "";
+
+            for(let i=0; i<names.length; i++){
+                //li1 변수에 li요소 생성 후 대입
+                //document.createElement("li") 리턴값 => <li></li>
+                //let li = <li></li>
+                //헷갈리는 점 이 코드를 for문이나 function밖에 써보면?
+                //잘 돌아가지 않음!! <li></li>를 names.length개만큼 만들어야함!
+                //이라고 일단 생각하자...
+                //**아래 코드해설 참고★★★★★
+                let li1 = document.createElement("li");
+
+                //li요소의 innerText에 배열 값 대입시키기
+                //li.innerText=names[i]의미 => <li></li> 사이에 names[i]를 넣어라
+                // ex) <li>김구라</li>
+                //**아래 코드해설 참고★★★★★
+                li1.innerText=names[i];
+
+                //nameList라는 id를 가진 요소의 자식요소로 li 넣기
+                //<ul>
+                //      <li>김구라<li>
+                //</ul>
+                //**아래 코드해설 참고★★★★★
+                document.querySelector("#nameList").append(li1);
+
+            }
+        }
+
+        //화면에 동적으로 요소 추가시키기! ---for each문
+        //화면에 요소 추가시키면서 배열 내용 출력해주는 함수 ★★★★★(자주 반복해보기!!!!)
+        function printToList2(){
+            //ul의 자식 요소를 모두 삭제
+            //이걸 쓰지 않으면 누를때마다 배열의 요소가 모두 출력된다.
+            document.querySelector("#nameList2").innerText = "";
+
+
+            //quiz!! : 위 printToList의 for문을 forEach문으로 바꿔보시오!
+            names.forEach(function(item,index){
+                let li1 = document.createElement("li");
+                li1.innerText=item;
+                document.querySelector("#nameList2").append(li1);
+
+            });
+        }
+
+    </script>
+
+</html>

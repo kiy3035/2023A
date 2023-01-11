@@ -48,7 +48,7 @@ public class UserController {
     /** 회원가입 **/
     @GetMapping ("/signUp")
     public String get_signUp(User1 user1) {
-        return "thymeleaf/signup";
+        return "thymeleaf/signup/signup";
     }
 
     @PostMapping ("/signUp")
@@ -66,7 +66,7 @@ public class UserController {
             }
 
             // 회원가입 페이지로 다시 리턴
-            return "thymeleaf/signup";
+            return "thymeleaf/signup/signup";
         }
 
         String rawPassword = user1.getPassword();
@@ -80,7 +80,7 @@ public class UserController {
         model.addAttribute("searchUrl", "http://localhost:8080/loginForm");
         log.info("회원가입 성공");
 
-        return "thymeleaf/message";
+        return "thymeleaf/signup/message";
 
     }
 
