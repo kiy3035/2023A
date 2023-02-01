@@ -1,0 +1,89 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>등업 게시판</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+</head>
+
+<body>
+
+<div class="container">
+  <table>
+    <h2> 등업 게시판 </h2><br>
+    <thead>
+      <tr>
+        <th>글번호</th>
+        <th>작성자</th>
+        <th>내용</th>
+        <th>등록일</th>
+      </tr>
+    </thead>
+         <input type="hidden" id="fail" th:value="${fail}">
+
+    <tbody>
+      <tr th:each="up : ${list}">
+          <td th:text="${up.idx}"></td>
+          <td id="userid" th:text="${up.userid}"></td>
+          <td th:text="${up.content}"></td>
+          <td th:text="${up.time}"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+<li sec:authorize ="hasRole('USER')">
+<div align="center">
+<button type="button" class="orange"
+        th:userid ="${userid}"
+        th:onclick="notice(this.getAttribute('userid'))">등업 글쓰기</button>
+</div>
+</li>
+
+  <div style="text-align : center;">
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
+      <a th:if="${page != nowPage}" th:href="@{/up/list/ (page = ${page -1})}" th:text="${page}"></a>
+      <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+    </th:block>
+  </div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+    var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
+const userid = document.getElementById("userid").innerHTML;
+const fail   = document.getElementById("fail").value;
+
+console.log(userid);
+console.log(fail);
+
+
+        function notice(userid){
+
+        if(fail == 1) {
+        alert('해당 게시판은 게시글 3개까지 등록 가능합니다');
+      } else {
+                  $.ajax({
+                  url: contextPath + '/up/write',
+                  type: 'get',
+                  data: {userid},
+
+                  success: function (result) {
+                      console.log(result);
+                      location.href = contextPath + '/up/write/';
+                  },
+              });
+             }
+           }
+
+</script>
+</html>

@@ -1,10 +1,7 @@
 package teamgreen.abc.domain;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -19,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
+@ToString
 public class User1 {
 
     @Id
@@ -50,9 +48,6 @@ public class User1 {
     private String user_tel;
 
 
-    private String user_comment;
-    private String user_profile;
-    private String user_kakao;
     private String user_role;
 
 

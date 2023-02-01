@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>어린이집 위치 검색</title>
+
+  <!-- 식이가 만든 navi -->
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    h3 {
+      font-size: 28px;
+      color: #333333;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    input { width : 50%; }
+  </style>
+
+</head>
+<body>
+<br>
+<h3><b>부산 어린이집 위치 찾기</b></h3>
+<br>
+  <div style="width:70%; margin: 0 auto;">
+    <input type="text" id="keyword" placeholder="키워드를 적어주세요 (ex. 어린이집)">
+    <button type="button" onclick="keywordSearch()">검색하기</button>
+  </div>
+<br>
+
+<div class="map_wrap">
+  <!-- Kakao 지도 표시할 div 영역 -->
+  <div id="map" style="width:70%; height:800px; margin: 0 auto; position:relative; overflow:hidden;"></div>
+
+  <!-- Kakao 지도 불러오기 -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=2f5c78b6582b6b1e388e13b67d7dbd94&libraries=services,clusterer,drawing"></script>
+
+
+  <script>
+
+  // 지도 설정
+  var mapContainer = document.getElementById('map'),
+      mapOption = {
+          center: new kakao.maps.LatLng(35.157759003, 129.059317193),	// 지도의 중심 좌표 (서면역 설정)
+          level: 5		// 지도의 확대 레벨 (임의 설정)
+      };
+
+  // 설정한 지도 생성
+  var map = new kakao.maps.Map(mapContainer, mapOption);
+
+  // 마커가 표시될 위치입니다 - 서면역
+  var markerPosition  = new kakao.maps.LatLng(35.157759003, 129.059317193);
+
+  // 마커를 생성합니다
+  var marker = new kakao.maps.Marker({
+      position: markerPosition
+  });
+
+  // 마커가 지도 위에 표시되도록 설정합니다
+  marker.setMap(map);
+
+  // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+  // marker.setMap(null);
+
+  // 카카오맵 클릭 이벤트 추가
+    kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
+
+        // 클릭한 위도, 경도 정보 불러오기
+        const latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 이동
+        marker.setPosition(latlng);
+        marker.setMap(map);
+
+        alert(`위도 : ${latlng.getLat()}, 경도 : ${latlng.getLng()}`);
+    });
+//----------------------------------------------------------------------------
+
+  </script>
+
+</div>
+
+  <!-- JavaScript
+  <script>
+    // 지도 설정
+    const mapContainer = document.getElementById('map'),
+        mapOption = {
+            center: new kakao.maps.LatLng(35.157759003, 129.059317193),	// 지도의 중심 좌표 (서면역 설정)
+            level: 5					// 지도의 확대 레벨 (임의 설정)
+        };
+
+    // 설정한 지도 생성
+    const map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 장소 검색 객체를 생성합니다
+    const search = new kakao.maps.services.Places(map);
+
+    // 키워드로 장소를 검색합니다
+    search.keywordSearch('어린이집', placeSearchCB);
+
+    // 키워드 검색 완료시 호출되는 콜백함수
+    function placeSearchCB (data, status, pagination) {
+      if (status == kakao.maps.services.Status.OK) {
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
+        // LatLngBounds 객체에 좌표를 추가합니다
+        const bounds = new kakao.maps.LatLngBounds();
+
+        for (var i=0; i<data.length; i++) {
+              displayMarker(data[i]);
+              bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
+        }
+
+        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
+        map.setBounds(bounds);
+      }
+    }
+
+    // 마커 초기화(초기화 시 지도에 미리 지정 가능 : 카카오맵 API 문서 참조)
+    const marker = new kakao.maps.Marker();
+
+    // 카카오맵 클릭 이벤트 추가
+    kakao.maps.event.addListener(map, 'click', (mouseEvent) => {
+
+        // 클릭한 위도, 경도 정보 불러오기
+        const latlng = mouseEvent.latLng;
+
+        // 마커 위치를 클릭한 위치로 이동
+        marker.setPosition(latlng);
+        marker.setMap(map);
+
+        alert(`위도 : ${latlng.getLat()}, 경도 : ${latlng.getLng()}`);
+    });
+  </script> -->
+</body>
+</html>
+

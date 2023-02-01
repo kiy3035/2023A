@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <title>리뷰 수정폼</title>
+    <link rel="stylesheet" type="text/css" href="/css/Review_list.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+</head>
+<body>
+
+<section class="notice">
+    <div class="page-title">
+        <div class="container">
+            <h3><b>리뷰글 수정</b></h3>
+        </div>
+    </div>
+    <br>
+
+<form th:action="@{/review/update/{reviewidx}(reviewidx = ${review1.reviewidx})}" method="post">
+    <div id="board-list">
+        <div class="container">
+            <table class="board-table">
+                <tbody>
+                    <tr>
+                        <td>작성자</td>
+                        <td th:if="${review1.reviewmenuidx} == 1" th:text="${review1.reviewhidx}"></td>
+                        <td th:if="${review1.reviewmenuidx} == 2" th:text="${review1.reviewpidx}"></td>
+
+                        <td>
+                            <span th:if="${review1.createdDate} == ${review1.modifiedDate}" >최초 작성 시간</span>
+                            <span th:unless="${review1.createdDate} == ${review1.modifiedDate}" >마지막 수정 시간</span>
+                        </td>
+                        <td>
+                            <span th:if="${review1.createdDate} == ${review1.modifiedDate}" th:text="${review1.createdDate}"></span>
+                            <span th:unless="${review1.createdDate} == ${review1.modifiedDate}" th:text="${review1.modifiedDate}"></span>
+                        </td>
+
+                        <!--
+                        <td>작성시간</td>
+                        <td><span th:text="${review1.createdDate}"></span></td>
+                        -->
+                    </tr>
+                    <tr>
+                        <td>글번호</td>
+                        <td><span th:text="${review1.reviewidx}"></span></td>
+                        <td>분류</td>
+                        <td th:switch="${review1.reviewmenuidx}">
+                          <span th:case="1">1. 학부모를 리뷰 (헬퍼가 작성)</span>
+                          <span th:case="2">2. 헬퍼를 리뷰 (학부모가 작성)</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">글 제목</td>
+                        <td colspan="2"><input name="reviewtitle" type="text" th:value="${review1.reviewtitle}"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">글 내용</td>
+                        <td colspan="2"><textarea name="reviewcont" th:text="${review1.reviewcont}"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <!-- <button>태그에도 onclick="return confirm~~" 붙이면 알림창 뜸! -->
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('리뷰를 수정합니다')">수정 [알림]</button>
+                            &nbsp;&nbsp;&nbsp;<button type="reset" class="btn btn-secondary">초기화</button>
+                            &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-warning" onclick="history.go(-1);">이전으로</button>
+                            &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="location.href = '/'">홈으로</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</form>
+</section>
+</body>
+
+</html>

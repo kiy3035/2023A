@@ -103,7 +103,7 @@
                 <button type="button" id="findBtn"
                         class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">비밀번호 변경
                 </button>
-                <button type="button" onclick="location.href = '/loginForm'"
+                <button type="button" onclick="location.href = 'http://localhost:8080/loginForm'"
                         class="w3-button w3-hover-white w3-ripple w3-margin-top w3-round mybtn">로그인 화면
                 </button>
             </p>

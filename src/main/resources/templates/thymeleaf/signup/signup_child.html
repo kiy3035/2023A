@@ -1,107 +1,332 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step06_quiz.html</title>
+
+  <title>아이 등록</title>
+
+<!--  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>-->
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/label.css"/>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    body {
+      min-height: 100vh;
+
+      background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+      background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+    }
+
+    .input-form {
+      max-width: 680px;
+
+      margin-top: 80px;
+      padding: 32px;
+
+      background: #fff;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+    }
+  </style>
 </head>
+
 <body>
-<h1>array 테스트중</h1>
-<input type="text" id="inputName" placeholder="이름입력...">
-<button onclick="saveToArray()">배열에 저장하기</button>
-<button onclick="printToConsole()">저장된 내용 콘솔에 순서대로 출력하기</button>
-<button onclick="printToList()">저장된 내용을 화면에 출력하기</button>
-<button onclick="printToList2()">저장된 내용을 화면에 출력하기2</button>
-<p id="printWhat"></p>
-<p id="printNames"></p>
-<h1>이름 목록입니다</h1>
-<ul id="nameList"></ul>
-<h1>이름 목록입니다2</h1>
-<ul id="nameList2"></ul>
+
+<div class="container">
+  <div class="input-form-backgroud row">
+    <div class="input-form col-md-12 mx-auto">
+      <h4 class="mb-3" style="font-weight:bold; font-size: 23pt;">아이 등록</h4>
+<form class="abc" th:action="@{/manager/signUp/Parents/Child}"
+      th:object="${p_child1}" id="newForm" modelAttribute="p_child1" method="POST">
+
+
+  <div class="dust-class" align="left">
+    <label for="p_id"><span>*</span>학부모 아이디</label>
+    <input type="text"  id="p_id" name="p_id" th:value="${p_id}" value="dust" readonly >
+  </div>
+  <br><br><br><br><br>
+
+  <div>
+    <label style="font-weight:bold; font-size: 14pt;">아이 이름</label>
+    <input type="text" id="p_childname" name="p_childname" placeholder="아이의 이름을 입력하세요.">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childname}"></span>
+  </div>
+  <br>
+
+  <div>
+    <label style="font-weight:bold; font-size: 14pt;">아이 성별</label>
+    <input type='radio'
+           name='p_childgender'
+           value='남성'>남성</input>
+    <input type='radio'
+           name='p_childgender'
+           value='여성'/>여성
+    <span style="font-size:1em; color: red;"  th:text="${valid_p_childgender}"  ></span>
+  </div>
+  <br>
+
+  <div>
+    <label style="font-weight:bold; font-size: 14pt;">아이 나이</label>
+    <input type="number" min="0" max="100" id="p_childage" name="p_childage"  placeholder="만나이">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childage}"></span>
+  </div>
+  <br>
+
+  <div>
+    <label style="font-weight:bold; font-size: 14pt;">아이 한줄 소개</label>
+    <input type="text" id="p_childcomment" name="p_childcomment"  placeholder="아이 한줄 소개를 입력하세요.">
+    <span style="font-size:1em; color: red;" th:text="${valid_p_childcomment}"></span>
+  </div><br>
+
+</form>
+
+  <div class="mb-4" align="center">
+    <button id="btn1" class="orange">아이 추가 등록</button>
+    <button id="save" class="blue">등록하기</button><br><br>
+    <a href="/">아이는 나중에 등록할게요</a>
+  </div>
+  </div>
+
+  </div>
+    <footer class="my-3 text-center text-small">
+      <p class="mb-1">&copy; 2023</p>
+    </footer>
+  </div>
 </body>
 
-<script>
-        //입력한 이름을 저장할 예정인 배열(array) 미리 만들어 놓기
-        let names = [];
+<link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 
-        //배열에 저장해주는 함수
-        function saveToArray(){
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script th:inline="javascript" type="text/javascript">
 
-            //input 요소에 입력한 문자열을 data에 대입
-            let data = document.querySelector("#inputName").value;
+var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
 
-            //data값을 array에 push
-            names.push(data);
+console.log(contextPath);
 
-            //textbox 비우고 focus 주기
-            document.querySelector("#inputName").value = "";
-            document.querySelector("#inputName").focus();
-
-            //무엇이 추가되었는지 화면에 나타내주기
-            let message = data + " 추가되었습니다. (총" + names.length + "개)";
-            document.querySelector("#printWhat").innerText = message;
-            document.querySelector("#printNames").innerText = "배열 names = [" + names + "]";
+const button = document.querySelector("#btn1");
+const form = document.querySelector("#newForm");
+const saveButton = document.querySelector("#save");
 
 
+let count = 2;
+
+const names = [ ];
+
+
+function handleSaveButton() {
+
+        let p_id           = document.getElementById('p_id').value;
+        let p_childname    = document.getElementById('p_childname').value;
+        let p_childgender  = document.querySelector('input[name="p_childgender"]:checked').value;
+        let p_childage     = document.getElementById('p_childage').value;
+        let p_childcomment = document.getElementById('p_childcomment').value;
+        console.log(p_id, p_childname, p_childgender, p_childage, p_childcomment);
+
+
+
+    for (let i = 2; i < count; i++) {
+
+        const div = form.querySelector(`#childName${i}`);
+        const input = div.querySelector(`#childName_input${i}`);
+
+        const div2 = form.querySelector(`#childGender${i}`);
+        const input2 = div2.querySelector(`input[name="gender${i}"]:checked`);
+
+
+        const div3 = form.querySelector(`#childAge${i}`);
+        const input3 = div3.querySelector(`#childAge_input${i}`);
+
+        const div4 = form.querySelector(`#childComment${i}`);
+        const input4 = div4.querySelector(`#childComment_input${i}`);
+
+
+        let data  = input.value;
+        let data2 = input2.value;
+        let data3 = input3.value;
+        let data4 = input4.value;
+
+
+        const dataObj = {
+            idx     : i,
+            id      : p_id,
+            name    : data,
+            gender  : data2,
+            age     : data3,
+            comment : data4
         }
+        names.push(dataObj);
+    }
 
-        //콘솔에 저장된 배열을 출력해주는 함수
-        function printToConsole(){
-            for(let i=0; i<names.length; i++){
-                console.log(names[i]);
-            }
-        }
+        const data1 = {
+            idx     : 1,
+            id      : p_id,
+            name    : p_childname,
+            gender  : p_childgender,
+            age     : p_childage,
+            comment : p_childcomment
+        };
+        names.unshift(data1);
 
-        //화면에 동적으로 요소 추가시키기! ---for문
-        //화면에 요소 추가시키면서 배열 내용 출력해주는 함수 ★★★★★(자주 반복해보기!!!!)
-        function printToList(){
-            //ul의 자식 요소를 모두 삭제
-            //이걸 쓰지 않으면 누를때마다 배열의 요소가 모두 출력된다.
-            document.querySelector("#nameList").innerText = "";
-
-            for(let i=0; i<names.length; i++){
-                //li1 변수에 li요소 생성 후 대입
-                //document.createElement("li") 리턴값 => <li></li>
-                //let li = <li></li>
-                //헷갈리는 점 이 코드를 for문이나 function밖에 써보면?
-                //잘 돌아가지 않음!! <li></li>를 names.length개만큼 만들어야함!
-                //이라고 일단 생각하자...
-                //**아래 코드해설 참고★★★★★
-                let li1 = document.createElement("li");
-
-                //li요소의 innerText에 배열 값 대입시키기
-                //li.innerText=names[i]의미 => <li></li> 사이에 names[i]를 넣어라
-                // ex) <li>김구라</li>
-                //**아래 코드해설 참고★★★★★
-                li1.innerText=names[i];
-
-                //nameList라는 id를 가진 요소의 자식요소로 li 넣기
-                //<ul>
-                //      <li>김구라<li>
-                //</ul>
-                //**아래 코드해설 참고★★★★★
-                document.querySelector("#nameList").append(li1);
-
-            }
-        }
-
-        //화면에 동적으로 요소 추가시키기! ---for each문
-        //화면에 요소 추가시키면서 배열 내용 출력해주는 함수 ★★★★★(자주 반복해보기!!!!)
-        function printToList2(){
-            //ul의 자식 요소를 모두 삭제
-            //이걸 쓰지 않으면 누를때마다 배열의 요소가 모두 출력된다.
-            document.querySelector("#nameList2").innerText = "";
+    console.log(names);
 
 
-            //quiz!! : 위 printToList의 for문을 forEach문으로 바꿔보시오!
-            names.forEach(function(item,index){
-                let li1 = document.createElement("li");
-                li1.innerText=item;
-                document.querySelector("#nameList2").append(li1);
+    $.ajax({
+	url: contextPath + '/manager/signUp/Parents/Child',
+	type: "post",
+	traditional: true,	              // ajax 배열 넘기기 옵션(필수)
+	data: JSON.stringify(names),
+	contentType: "application/json; charset=utf-8",
+	dataType: "json",
+	success: function (result) {
+		console.log(result);
+		alert('아이 등록이 완료되었습니다');
+		location.href = "http://localhost:8080"
+	},
+});
 
-            });
-        }
 
-    </script>
+
+}
+
+function handleButton() {
+
+    const br = document.createElement("br");
+
+    const div_childName    = document.createElement("div");
+    const div_childGender  = document.createElement("div");
+    const div_childAge     = document.createElement("div");
+    const div_childComment = document.createElement("div");
+
+    //------------------- div_childName 내부
+    const childName_label = document.createElement("label");
+    const childName_input = document.createElement("input");
+
+
+    //------------------- div_childGender 내부
+    const childGender_label  = document.createElement("label");
+<!--    const childGender_input  = document.createElement("input");-->
+
+    const childGender_inputM = document.createElement("input");
+    const childGender_inputF = document.createElement("input");
+
+    //------------------- div_childAge 내부
+    const childAge_label = document.createElement("label");
+    const childAge_input = document.createElement("input");
+
+    //------------------- div_childComment 내부
+    const childComment_label = document.createElement("label");
+    const childComment_input = document.createElement("input");
+
+
+    //------------------------------------ div_childName Setting
+    div_childName.id = "childName" + count;
+
+    childName_label.id = "childName_label";
+    childName_label.innerText = "아이 이름\u00A0";
+    childName_label.style = "font-weight:bold; font-size: 14pt; ";
+
+    childName_input.id = "childName_input" + count;
+    childName_input.innerText = "input your name";
+    childName_input.placeholder = "아이의 이름을 입력하세요.";
+
+    div_childName.appendChild(br);
+    div_childName.appendChild(childName_label);
+    div_childName.appendChild(childName_input);
+    div_childName.appendChild(br);
+
+
+    //------------------------------------ div_childGender Setting
+    div_childGender.id = "childGender" + count;
+
+    childGender_label.id = "childGender_label";
+    childGender_label.innerText = "아이 성별\u00A0";
+    childGender_label.style = "font-weight:bold; font-size: 14pt; ";
+
+    childGender_inputM.id    = "childGender_inputM" + count;
+    childGender_inputM.value = "남성";
+    childGender_inputM.type  = "radio";
+    childGender_inputM.name  = "gender" + count;
+    childGender_inputM.innerText = "남성";
+
+    childGender_inputF.id    = "childGender_inputF" + count;
+    childGender_inputF.value = "여성";
+    childGender_inputF.type  = "radio";
+    childGender_inputF.name  = "gender" + count;
+    childGender_inputF.innerText = "여성";
+
+
+    div_childGender.appendChild(childGender_label);
+    div_childGender.appendChild(childGender_inputM);
+    div_childGender.appendChild(childGender_inputF);
+
+
+    //------------------------------------ div_childAge Setting
+    div_childAge.id = "childAge" + count;
+
+    childAge_label.id = "childAge_label";
+    childAge_label.innerText = "아이 나이\u00A0";
+    childAge_label.style = "font-weight:bold; font-size: 14pt; ";
+
+    childAge_input.id = "childAge_input" + count;
+    childAge_input.type = "number";
+    childAge_input.innerText = "input your age";
+    childAge_input.placeholder = "만나이";
+    childAge_input.min = "0";
+    childAge_input.max = "100";
+
+
+    div_childAge.appendChild(childAge_label);
+    div_childAge.appendChild(childAge_input);
+
+
+    //------------------------------------ div_childComment Setting
+    div_childComment.id = "childComment" + count;
+
+    childComment_label.id = "childComment_label";
+    childComment_label.innerText = "아이 한줄 소개\u00A0";
+    childComment_label.style = "font-weight:bold; font-size: 14pt; ";
+
+    childComment_input.id = "childComment_input" + count;
+    childComment_input.innerText = "input your comment";
+    childComment_input.placeholder = "아이 한줄 소개를 입력하세요.";
+
+    div_childComment.appendChild(childComment_label);
+    div_childComment.appendChild(childComment_input);
+
+
+    form.appendChild(br);
+    form.appendChild(div_childName);
+    form.appendChild(div_childGender);
+    form.appendChild(div_childAge);
+    form.appendChild(div_childComment);
+    form.appendChild(br);
+
+    console.dir(form);
+
+    count = count + 1;
+}
+
+button.addEventListener("click", handleButton);
+saveButton.addEventListener("click", handleSaveButton);
+
+
+</script>
 
 </html>

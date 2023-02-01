@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+
 <head th:fragment="aa">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,44 +11,75 @@
 
   <div th:fragment="bb">
     <nav id="navbar-example2" class="navbar bg-light px-3 mb-3">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <a class="navbar-brand" >Navbar</a>
       <ul class="nav nav-pills">
+
+
+        <li sec:authorize ="hasRole('ADMIN')" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" >관리자</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/admin/userList">회원 목록</a></li>
+            <li><a class="dropdown-item" href="/admin/helperList">헬퍼 목록</a></li>
+            <li><a class="dropdown-item" href="/admin/parentsList">학부모 목록</a></li>
+          </ul>
+        </li>
+
+        <li sec:authorize ="isAuthenticated()" class="nav-item">
+          <a class="nav-link" href="/Logout.do" >로그아웃</a>
+        </li>
+
+        <li sec:authorize ="!isAuthenticated()" class="nav-item">
+          <a class="nav-link" href="/loginForm" >로그인</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="/board/list">board1 글 보기</a>
+          <a class="nav-link" href="/up/list">등업 게시판</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/review/list">review1 글 보기</a>
-        </li>
+
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">등록</a>
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">등/하원 게시판</a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/register/reg_helperlist">헬퍼등록</a></li>
-            <li><a class="dropdown-item" href="/register/reg_child">아이등록</a></li>
+            <li><a class="dropdown-item" href="/commuting/list/1">등/하원 부탁해요</a></li>
+            <li><a class="dropdown-item" href="/commuting/list/2">등/하원 맡을게요</a></li>
           </ul>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">등/하원</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/commuting/bootak">등/하원 부탁해요</a></li>
-            <li><a class="dropdown-item" href="/commuting/mat">등/하원 맡을게요</a></li>
-          </ul>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">리뷰</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/review/parents">학부모를 리뷰 (헬퍼가 작성)</a></li>
-            <li><a class="dropdown-item" href="/review/helper">헬퍼를 리뷰 (학부모가 작성)</a></li>
-          </ul>
-        </li>
+
         <li class="nav-item">
-          <a class="nav-link" href="/search">어린이집 찾기</a>
+          <a class="nav-link" href="/review/list">리뷰 보기</a>
         </li>
+
+        <li sec:authorize ="hasRole('MANAGER')" class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">가입</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/manager/signUp/Helper">헬퍼 가입</a></li>
+            <li><a class="dropdown-item" href="/manager/signUp/Parents">학부모 가입</a></li>
+          </ul>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="/map">어린이집 찾기</a>
+        </li>
+
         <li class="nav-item">
           <a class="nav-link" href="/myPage">마이페이지</a>
         </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">쪽지함</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" th:href="@{/messageList/receive}">받은 쪽지함</a></li>
+            <li><a class="dropdown-item" th:href="@{/messageList/send}">보낸 쪽지함</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/matching}">매칭 관리</a>
+        </li>
+
       </ul>
     </nav>
   </div>

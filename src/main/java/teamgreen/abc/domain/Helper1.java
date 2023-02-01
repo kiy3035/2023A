@@ -4,8 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -16,7 +15,8 @@ public class Helper1 {
 
 
     @Id
-    private String helper_id;
+    @Column(name = "HELPER_ID")
+    private String helperid;
 
     @NotBlank(message = "사는 곳을 입력하세요")
     private String helper_addr;
@@ -32,7 +32,8 @@ public class Helper1 {
     private String helper_go;
     private String helper_come;
 
-    @NotBlank(message = "프로필 사진을 등록하세요")
+//  @NotNull(message = "프로필 사진을 등록하세요")
+//  NotNull, NotBlank, NotEmpty 하면 오류뜸
     private String helper_filepath;
 
 

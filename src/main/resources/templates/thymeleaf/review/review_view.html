@@ -2,54 +2,115 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <!-- <meta name="viewport" content="width=device-width,initial-scale=1"> -->
   <title>리뷰글 상세 페이지</title>
-  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/Review_list.css"/>
 
   <div th:replace="../static/navbar.html :: aa"></div>
   <div th:replace="../static/navbar.html :: bb"></div>
 
-  <style>
-    h2 {text-align : center;}
-  </style>
 </head>
 <body>
-  <br>
-  <h2><b>리뷰 상세 내용</b></h2>
-  <br>
-  <table>
-    <tr>
-      <td>작성자</td>
-        <span th:if="${review1.reviewmenuidx == 1}">헬퍼가 작성</span>
-        <span th:unless="${review1.reviewmenuidx == 1}">학부모가 작성</span>
-      <td>작성시간</td>
-      <td th:text="${review1.reviewregdate}"></td>
-    </tr>
-    <tr>
-      <td>리뷰글 번호</td>
-      <td th:text="${review1.reviewidx}"></td>
-      <td>분류</td>
-      <td th:switch="${review1.reviewmenuidx}">
-        <span th:case="1">학부모를 리뷰</span>
-        <span th:case="2">헬퍼를 리뷰</span>
-      </td>
-    </tr>
-    <tr>
-      <td>글 제목</td>
-      <td colspan="3" th:text="${review1.reviewtitle}"></td>
-    </tr>
-    <tr>
-      <td>글 내용</td>
-      <td colspan="3" th:text="${review1.reviewcont}"></td>
-    </tr>
-    <tr>
-      <td colspan="4">
-        <!-- @GetMapping("/board/delete") + '원하는 값 = ${~~~}' -->
-        &nbsp;&nbsp;&nbsp;<a th:href="@{/review/delete(reviewidx = ${review1.reviewidx})}">글 삭제</a>
-        &nbsp;&nbsp;&nbsp;<a th:href="@{/review/modify/{reviewidx}(reviewidx = ${review1.reviewidx})}">글 수정</a>
-      </td>
-    </tr>
 
-  </table>
+
+<section class="notice">
+  <div class="page-title">
+    <div class="container">
+      <h3><b>리뷰 상세 내용</b></h3>
+    </div>
+  </div>
+  <br>
+
+  <div id="board-list">
+    <div class="container">
+      <table class="board-table">
+        <tbody>
+          <tr>
+            <td>작성자</td>
+            <td th:switch="${review1.reviewmenuidx}">
+              <span th:case="1" th:text="${review1.reviewhidx}"></span>
+              <span th:case="2" th:text="${review1.reviewpidx}"></span>
+            </td>
+            <td>리뷰 대상자</td>
+            <td th:switch="${review1.reviewmenuidx}">
+              <span th:case="1" th:text="${review1.reviewpidx}"></span>
+              <span th:case="2" th:text="${review1.reviewhidx}"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>리뷰글 번호</td>
+            <td th:text="${review1.reviewidx}"></td>
+            <td>분류</td>
+            <td th:switch="${review1.reviewmenuidx}">
+              <span th:case="1">1. 학부모를 리뷰 (헬퍼가 작성)</span>
+              <span th:case="2">2. 헬퍼를 리뷰 (학부모가 작성)</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">글 제목</td>
+            <td id="review_title" colspan="2" th:text="${review1.reviewtitle}"></td>
+          </tr>
+          <tr>
+            <td colspan="2">글 내용</td>
+            <td id="review_cont" colspan="2" th:text="${review1.reviewcont}"></td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <span th:if="${review1.createdDate} == ${review1.modifiedDate}" >최초 작성 시간</span>
+              <span th:unless="${review1.createdDate} == ${review1.modifiedDate}" >마지막 수정 시간</span>
+            </td>
+            <td colspan="2">
+              <span th:if="${review1.createdDate} == ${review1.modifiedDate}" th:text="${review1.createdDate}"></span>
+              <span th:unless="${review1.createdDate} == ${review1.modifiedDate}" th:text="${review1.modifiedDate}"></span>
+            </td>
+          </tr>
+
+          <!-- 아이디가 작성자랑 같지 않으면 수정, 삭제가 불가능하게 만들어야 함 -->
+          <tr>
+            <td colspan="4" th:if="${userData.userid} == ${review1.reviewhidx} or ${userData.userid} == ${review1.reviewpidx}">
+              <!-- @GetMapping("/board/delete") + '원하는 값 = ${~~~}' -->
+              <!-- <a>태그에서 onclick="return confirm"하면 알림창으로 yes/no 뜸 -->
+              <a th:href="@{/review/delete(reviewidx = ${review1.reviewidx})}" onclick="return confirm('리뷰를 정말 삭제하시겠습니까?')">리뷰 삭제 [알림]</a>
+              &nbsp;&nbsp;&nbsp;<a th:href="@{/review/modify/{reviewidx}(reviewidx = ${review1.reviewidx})}" onclick="return confirm('리뷰를 수정하시겠습니까?')">리뷰 수정 [알림]</a>
+              &nbsp;&nbsp;&nbsp;<a href="javascript:window.history.back();">이전으로</a>
+
+              <!-- &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button> -->
+
+              <!--
+              <br><br>
+              &nbsp;&nbsp;&nbsp;<button type="button" id="reviewDelete" class="btn btn-danger" th:onclick="|location.href='@{/review/delete(reviewidx = ${review1.reviewidx})}'|" >리뷰 삭제 2 - 알림창 X</button>
+              &nbsp;&nbsp;&nbsp;<button type="button" id="reviewModify" class="btn btn-warning" >리뷰 수정 2 - 알림창 X</button>
+              &nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-secondary" onclick="history.go(-1);">이전으로</button>
+              -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!--
+<script th:inline="javascript">
+  /*<![CDATA[*/
+    document.getElementById("reviewModify").onclick = function () {
+      if(confirm('리뷰를 수정하시겠습니까?') == true) {
+        location.href='@{/review/modify/{reviewidx}(reviewidx = [[ ${review1.reviewidx} ]] )}'
+      } else {
+        return false;
+      };
+    }
+
+    document.getElementById("reviewDelete").onclick = function () {
+      if(confirm('리뷰를 삭제하시겠습니까?') == true) {
+      } else {
+        return false;
+      };
+    }
+  /*]]>*/
+</script> -->
 
 </body>
 </html>

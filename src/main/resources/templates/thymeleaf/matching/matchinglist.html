@@ -1,0 +1,123 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+</head>
+
+<body>
+<div class="container">
+    <table>
+        <br><h2 align="center">매칭 관리</h2><br>
+      <thead>
+        <tr>
+          <th>순번</th>
+          <th>상대방 아이디</th>
+          <th>관리</th>
+        </tr>
+      </thead>
+
+        <tbody>
+        <tr th:each="m : ${matching1}">
+            <td th:text="${mStat.index}+1"></td>
+            <td th:text="${m.myid}"></td>
+            <input type="hidden" id="myid" name="myid"  th:value="${m.myid}"/>
+            <input type="hidden" id="opponentid" name="opponentid" th:value="${m.opponentid}"/>
+            <td>
+              <button type="button" class="blue"
+                      th:midx="${m.midx}"
+                      th:myid="${m.myid}"
+                      th:opponentid="${m.opponentid}"
+                      th:onclick="agree(this.getAttribute('midx'), this.getAttribute('myid'), this.getAttribute('opponentid'))">수락
+              </button>
+              <button type="button" class="red"
+                      th:midx="${m.midx}"
+                      th:onclick="refuse(this.getAttribute('midx'))">거절
+              </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
+    const myid = document.getElementById("myid").value;
+    const opponentid = document.getElementById("opponentid").value;
+
+    console.log("내아이디:" + myid);
+    console.log("니아이디:" + opponentid);
+
+
+// 매칭 수락
+function agree(midx, myid, opponentid) {
+
+        console.log(midx);
+        console.log(myid);
+        console.log(opponentid);
+
+        if (confirm("수락하시겠습니까?")) {
+
+            let param = {
+            midx : midx,
+            myid : myid,
+            opponentid : opponentid
+            }
+
+         $.ajax({
+                type: "POST",
+                url: contextPath + '/matching/agree',
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    alert('수락되었습니다');
+                    location.href = contextPath + "/matching/";
+                },
+            })
+    }
+ }
+
+
+
+    // 매칭 거절
+    function refuse(midx) {
+
+        console.log(midx);
+
+        if (confirm("거절하시겠습니까?")) {
+
+            let param = {
+            midx : midx
+            }
+
+         $.ajax({
+                type: "POST",
+                url: contextPath + '/matching/refuse',
+                data: JSON.stringify(param),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+
+                success: function (result) {
+                    console.log(result);
+                    alert('거절되었습니다');
+                    location.href = contextPath + "/matching/" ;
+                },
+            })
+    }
+ }
+
+</script>
+</html>

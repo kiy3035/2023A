@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5">
+<head>
+
+    <meta charset="UTF-8">
+    <title>게시글 상세 페이지</title>
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+
+    <style>
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<br>
+<h2><b>게시글 내용</b></h2>
+<br>
+
+<table>
+    <tr>
+        <td>작성자</td>
+
+        <td th:text="${commuting1.comwriter}" >
+
+        </td>
+
+
+        <td>
+            <span th:if="${commuting1.createdDate} == ${commuting1.modifiedDate}">등록일</span>
+            <span th:unless="${commuting1.createdDate} == ${commuting1.modifiedDate}">등록일</span>
+        </td>
+        <td colspan="3">
+            <span th:if="${commuting1.createdDate} == ${commuting1.modifiedDate}"
+                  th:text="${commuting1.createdDate}"></span>
+            <span th:unless="${commuting1.createdDate} == ${commuting1.modifiedDate}"
+                  th:text="${commuting1.modifiedDate}"></span>
+        </td>
+    </tr>
+
+    <tr>
+        <td>글 번호</td>
+        <td th:text="${commuting1.comidx}"></td>
+
+        <td>분류</td>
+        <td th:switch="${commuting1.commenuidx}">
+            <span th:case="1">등/하원 부탁해요</span>
+            <span th:case="2">등/하원 맡을게요</span>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td>글 제목</td>
+        <td th:text="${commuting1.comtitle}"></td>
+        <td>조회수</td>
+        <td th:text="${commuting1.comview}"></td>
+    </tr>
+
+    <tr>
+        <td>글 내용</td>
+        <td colspan="3" th:text="${commuting1.comcont}"></td>
+    </tr>
+
+
+    <tr th:if="${commuting1.comfilename != null}">
+        <td>첨부파일</td>
+        <td colspan="3">
+            <a th:href="@{'/commuting/' + ${commuting1.comfilepath}}"
+               th:text="${commuting1.comfilename}">
+            </a>
+        </td>
+    </tr>
+
+</table>
+
+
+<!--  <div sec:authorize-expr="isAuthenticated()" or th:unless="${#strings.equals(commuting1.getUserid(),login_id)}" class="d-block">-->
+<!-- 로그인 유저와 작성자가 동일하지 않다면 -->
+<!-- 좋아요 -->
+<div align="center">
+    <input type="hidden" id="like_check" th:value="${like}">
+    <img th:id="likeImg" src="/heart/emptyheart.jpg" alt="" width="30px" height="30px">
+
+    <span th:text="${commuting1.likecount}"></span>
+
+    <tr th:if="${userid} != ${commuting1.comwriter}">
+    <button type="button" class="blue"
+            th:myid="${userid}"
+            th:opponentid="${commuting1.comwriter}"
+            th:onclick="matching(this.getAttribute('myid'), this.getAttribute('opponentid'));" >매칭 신청</button>
+    </tr>
+
+    <tr th:if="${userid} != ${commuting1.comwriter}">
+        <button type="button" class="orange"
+                data-bs-toggle="modal" data-bs-target="#message_div">쪽지 쓰기</button>
+    </tr>
+</div>
+<!--  </div>-->
+
+<div sec:authorize-expr="!isAuthenticated()">
+    <!-- 로그인하지 않은 유저라면 -->
+    <img id="loginCheck" src="/heart/emptyheart.jpg" alt="" width="30px"
+         height="30px">
+    <span th:text="${commuting1.likecount}"></span>
+</div>
+
+
+<!-- 댓글 목록 -->
+<div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+    <h6 class="border-bottom pb-2 mb-0">댓글 목록</h6>
+    <div id="getComment"></div>
+</div>
+
+
+<!-- 댓글 -->
+<div class="card my-4">
+    <h5 class="card-header">댓글</h5>
+    <div class="card-body">
+        <form name="comment-form" action="/comment/write" method="post" autocomplete="off">
+            <div class="form-group">
+                <input type="hidden" name="comidx" th:value="${commuting1.comidx}"/>
+                <textarea name="content" class="form-control" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글 쓰기</button>
+        </form>
+    </div>
+</div>
+
+
+<div align="center">
+    <tr th:if="${userid} == ${commuting1.comwriter}">
+        <td colspan="4">
+            &nbsp;&nbsp;&nbsp;<button class="blue"
+                th:onclick="'location.href=\''+ @{/commuting/modify/{comidx}(comidx = ${commuting1.comidx})} + '\''">글 수정</button>
+            &nbsp;&nbsp;&nbsp;<button style="margin: 0px 20px 0px 0px;" class="red"
+                th:commenuidx="${commuting1.commenuidx}"
+                th:comidx="${commuting1.comidx}"
+                th:onclick="postDelete(this.getAttribute('commenuidx'), this.getAttribute('comidx'));">글 삭제</button>
+        </td>
+    </tr>
+    <button type="button" class="white" onclick="location.href = 'http://localhost:8080/commuting/list/' + commenuidx">목록으로</button>
+</div>
+
+
+
+
+
+</body>
+<!--댓글 수정-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">댓글 수정</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="hidden" id="commentIdx"/>
+                        <input type="hidden" id="time"/>
+                        <label for="nameA" class="col-form-label">아이디</label>
+                        <input type="text" class="form-control" id="nameA" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="message-text" class="col-form-label">내용</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="commentUpdate()">수정</button>
+                <button id="btn_close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--쪽지 쓰기-->
+<div class="modal fade" id="message_div" tabindex="-1" aria-labelledby="messageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="message_h1" style="font-family:바탕체;">쪽지 쓰기</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="hidden" id="senderid"/>
+                        <input type="hidden" id="receiverid"/>
+                        <label for="title" class="col-form-label">제목</label>
+                        <input type="" class="form-control" id="title" >
+                    </div>
+                    <div class="mb-3">
+                        <label for="content" class="col-form-label">내용</label>
+                        <textarea class="form-control" id="content"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="message()">전송</button>
+                <button id="btn_close2" type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<!--<script src="/js/ex.js"></script>-->
+<script>
+    var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
+    let comidx = [[${comidx}]];
+    const userid = "[[${userid}]]";
+    const commenuidx = "[[${commuting1.commenuidx}]]";
+    const comwriter = "[[${commuting1.comwriter}]]";
+
+    console.log("comidx:" + comidx);
+    console.log("commenuidx:" + commenuidx);
+    console.log("접속한 ID:" + userid);
+    console.log("게시글 글쓴이:" + comwriter);
+
+
+
+var today = new Date();
+var year = today.getFullYear();
+var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var day = ('0' + today.getDate()).slice(-2);
+var dateString = year + '/' + month  + '/' + day;
+
+
+var today = new Date();
+var hours = ('0' + today.getHours()).slice(-2);
+var minutes = ('0' + today.getMinutes()).slice(-2);
+var seconds = ('0' + today.getSeconds()).slice(-2);
+var timeString = hours + ':' + minutes  + ':' + seconds;
+
+
+const nowDate = dateString + ' ' + timeString;
+console.log(nowDate);
+
+
+
+    $(document).ready(function () {
+
+        let likeVal = document.getElementById('like_check').value
+        console.log("likeVal은" + likeVal);
+
+        const likeImg = document.getElementById("likeImg")
+
+        if (likeVal > 0) {
+            likeImg.src = "/heart/heart.jpg";
+        } else {
+            likeImg.src = "/heart/emptyheart.jpg";
+        }
+
+        // 좋아요 버튼을 클릭 시 실행되는 코드
+        $("#likeImg").on("click", function () {
+            $.ajax({
+                url: '/like',
+                type: 'POST',
+                data: {'comidx': comidx, 'userid': userid},
+                success: function (data) {
+                    console.log("데이타:" + data)
+                    if (data == 1) {
+                        $("#likeImg").attr("src", "/heart/heart.jpg");
+                        location.href = "/commuting/view/" + comidx;
+                    } else {
+                        $("#likeImg").attr("src", "/heart/emptyheart.jpg");
+                        location.href = "/commuting/view/" + comidx;
+                    }
+                }, error: function () {
+                    $("#likeImg").attr("src", "/heart/heart.jpg");
+                    console.log('오타 찾으세요')
+                }
+
+            });
+
+        });
+    });
+
+
+    // 댓글 리스트
+    $(document).ready(function () {
+        getCommentList();
+    })
+
+    function getCommentList() {
+        var comidx = $('input[name=comidx]').val();
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/getCommentList',
+            data: {comidx},
+            success: function (result) {
+                console.log(result);
+
+
+                $.each(result, function (index, getCommentList) {
+                    console.log($("#getComment"));
+
+
+                    $("#getComment").append(getCommentList.idx + " ");
+                    $("#getComment").append(getCommentList.writer + " ");
+                    $("#getComment").append(getCommentList.content +" " );
+                    $("#getComment").append(getCommentList.modifiedDate + " ");
+
+
+                    const upbutt = document.createElement("button");
+                    upbutt.setAttribute("onclick", 'commentUpdateForm(' + getCommentList.idx + ','
+                                                                        + '\'' + getCommentList.writer + '\'' + ','
+                                                                        + '\'' + getCommentList.modifiedDate + '\'' + ','
+                                                                        + '\'' + getCommentList.content  + '\'' +') ');
+                    upbutt.setAttribute("data-bs-toggle", "modal");
+                    upbutt.setAttribute("data-bs-target","#exampleModal");
+                    upbutt.setAttribute("class","blue");
+
+                    if(userid!= getCommentList.writer){
+                        $(upbutt).hide();
+                    }
+                    upbutt.innerText = "수정";
+                    upbutt.id = "update" + getCommentList.idx;
+
+
+                    const delbutt = document.createElement("button");
+                    delbutt.setAttribute("onclick", 'commentDelete(' + getCommentList.idx + ',' + '\'' + getCommentList.writer + '\'' + ')');
+                    if(userid!= getCommentList.writer){
+                        $(delbutt).hide();
+                    }
+                    delbutt.innerText = "삭제";
+                    delbutt.id = "delete" + getCommentList.idx;
+                    delbutt.setAttribute("class","red");
+
+
+                    $("#getComment").append(upbutt);
+                    $("#getComment").append(delbutt);
+                    $("#getComment").append("<br>");
+
+                });
+
+            },
+            error: function (result) {
+            },
+            complete: function () {
+            }
+
+        })
+    }
+
+
+    // 댓글 수정 폼
+    function commentUpdateForm(idx, writer, modified_date, content) {
+            $('#commentIdx').val(idx);
+            $('#nameA').val(writer);
+            $('#time').val(modified_date);
+            $('#message-text').val(content);
+    }
+
+
+    // 댓글 수정 후 컨트롤러 전달
+    function commentUpdate(){
+
+        let param = {
+             idx : $('#commentIdx').val(),
+            content :  $('#message-text').val(),
+            modified_date :  nowDate
+        }
+
+           $.ajax({
+                  url: contextPath + '/updateComment',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                      console.log(result);
+                      alert('댓글 수정 완료');
+                      location.href = contextPath + "/commuting/view/" + comidx;
+                  },
+              });
+    }
+
+
+
+    // 댓글 삭제 버튼
+    function commentDelete(idx, writer) {
+
+            if (confirm(idx + "번 댓글을 삭제하시겠습니까?")) {
+
+                $.ajax({
+                    url: contextPath + '/deleteComment',
+                    type: "post",
+                    data: JSON.stringify({idx: idx}),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (result) {
+                        console.log(result);
+                        alert('댓글 삭제 완료');
+                        location.href = contextPath + "/commuting/view/" + comidx;
+                    },
+                });
+            }
+    }
+
+
+
+// 글 삭제
+function postDelete(commenuidx, comidx){
+        if (confirm("게시글을 삭제하시겠습니까?")) {
+
+        let param = {
+            comidx     : comidx,
+            commenuidx : commenuidx
+        }
+
+           $.ajax({
+                  url: contextPath + '/commuting/delete',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                      console.log(result);
+                      alert('글 삭제 완료');
+                      location.href = contextPath + "/commuting/list/" + commenuidx;
+                  },
+              });
+        }
+}
+
+
+// 매칭 신청하기
+function matching(myid, opponentid){
+        if (confirm("매칭 신청을 하시겠습니까?")) {
+
+        let param = {
+            myid : userid,
+            opponentid  : comwriter
+        }
+
+           $.ajax({
+                  url: contextPath + '/matching',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                  if(result.result == "fail"){
+                      console.log(result);
+                      alert("신청이 되어있는 상태입니다\n조금만 기다려 주세요");
+                  } else if(result.result == "fail2") {
+                  console.log(result);
+                  alert("이미 매칭이 되어있습니다");
+                  } else {
+                    alert("매칭 신청이 되었습니다");
+                    location.href = contextPath + "/commuting/view/" + comidx;
+                  }
+                  },
+              });
+        }
+}
+
+
+    // 쪽지 쓰기
+    function message(senderid, receiverid, title, content, time){
+
+        let param = {
+            senderid   : userid,
+            receiverid : comwriter,
+            title      : $('#title').val(),
+            content    : $('#content').val(),
+            time       : nowDate
+        }
+
+            console.log(param);
+
+           $.ajax({
+                  url: contextPath + '/message',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                      console.log(result);
+                      alert('쪽지가 전송되었습니다');
+                      location.href = contextPath + "/commuting/view/" + comidx;
+                  },
+              });
+    }
+
+</script>
+</html>
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <title>등업 작성폼</title>
+  <link rel="stylesheet" type="text/css" href="/css/Eclipse_Form.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    textarea {
+    width: 80%;
+    height: 6em;
+  }
+  </style>
+</head>
+
+<body>
+
+  <form action="/up/writeprocess" id="form" method="post">
+    <table>
+
+      <tr>
+        <td>작성자</td>
+        <td><input  name="userid" th:value="${id}" readonly></td>
+      </tr>
+
+      <tr>
+        <td>내용</td>
+        <td><textarea id="content" name="content" required></textarea></td>
+      </tr>
+
+      <tr>
+        <td><input type="hidden" id="time" name="time" value=""></td>
+      </tr>
+
+
+      <tr>
+        <td colspan="2">
+          <div align="center">
+          <button class="white" type="submit">작성</button>
+          <button class="white" type="reset">초기화</button>
+          <button class="white" type="button" onclick="history.go(-1);">이전으로</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </form>
+</body>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+var today = new Date();
+var year = today.getFullYear();
+var month = ('0' + (today.getMonth() + 1)).slice(-2);
+var day = ('0' + today.getDate()).slice(-2);
+var dateString = year + '/' + month  + '/' + day;
+
+const nowDate = dateString
+console.log(nowDate);
+
+$('input[name=time]').attr('value', nowDate);
+
+</script>
+
+</html>

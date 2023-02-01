@@ -1,102 +1,176 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
 <head>
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-      charset="utf-8">
+  <title>회원가입</title>
+
+<!--  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>-->
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    body {
+      min-height: 100vh;
+
+      background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+      background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+    }
+
+    .input-form {
+      max-width: 680px;
+
+      margin-top: 80px;
+      padding: 32px;
+
+      background: #fff;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+    }
+  </style>
 </head>
 
 <body>
-<h2>★ 회원가입 폼 ★</h2>
-<form class="abc" role="form" th:action="@{/signUp}"
-      th:object="${user1}" id="signupForm" modelAttribute="user1" method="POST">
 
-  <div class="form-group">
-    <label>아이디</label>
-      <input type="text" th:field="*{userid}" name="userid" id="userid" th:value="${user1.userid}" placeholder="아이디를 입력하세요.">
-    <span th:text="${valid_userid}"></span>
-    </div>
-    <br/>
+<div class="container">
+  <div class="input-form-backgroud row">
+    <div class="input-form col-md-12 mx-auto">
+      <h4 class="mb-3">회원가입</h4>
+      <form class="validation-form" novalidate th:action="@{/signUp}" th:object="${user1}" id="signupForm" modelAttribute="user1" method="POST" >
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="userid">아이디</label>
+            <input type="text" class="form-control" th:field="*{userid}" name="userid" id="userid" th:value="${user1.userid}" placeholder="아이디를 입력하세요" required>
+            <div class="invalid-feedback">아이디를 입력하세요
+              <span id="valid_userid" th:text="${valid_userid}"></span>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="username">이름</label>
+            <input type="text" class="form-control" name="username" id="username" th:value="${user1.username}" placeholder="이름을 입력하세요" required>
+            <div class="invalid-feedback">
+              이름을 입력하세요
+            </div>
+          </div>
+        </div>
 
+        <div class="mb-3">
+          <label for="useremail">이메일</label>
+          <input type="email" class="form-control" name="useremail" id="useremail" th:value="${user1.useremail}" placeholder="abc@example.com" required>
+          <div class="invalid-feedback">
+            이메일을 입력하세요
+          </div>
+        </div>
 
-  <div>
-    <label>비밀번호</label>
-    <input type="password" name="password" th:value="${user1.password}" placeholder="비밀번호를 입력하세요.">
-    <span th:text="${valid_password}"></span>
-  </div>
-  <br/>
+        <div class="mb-3">
+          <label for="pw">비밀번호</label>
+          <input type="password" class="form-control" name="pw" id="pw" th:value="${user1.password}" placeholder="비밀번호를 입력하세요" required>
+          <div class="invalid-feedback">
+            비밀번호를 입력하세요
+          </div>
+        </div>
 
+<!--        <div class="mb-3">-->
+<!--          <label for="pw2">비밀번호 확인</label>-->
+<!--          <input type="password" class="form-control" name="pw2" id="pw2" placeholder="비밀번호 확인란" onchange="check_pw()" required>-->
+<!--          <div class="invalid-feedback">-->
+<!--            비밀번호를 확인하세요-->
+<!--          </div>-->
+<!--        </div>-->
 
-  <div>
-    <label>이름</label>
-    <input type="text" name="username" th:value="${user1.username}" placeholder="이름을 입력하세요.">
-    <span th:text="${valid_username}"></span>
-  </div>
-  <br/>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="user_age">나이</label>
+          <input type="text" class="form-control" name="user_age" id="user_age" th:value="${user1.user_age}" placeholder="나이를 입력하세요" required>
+          <div class="invalid-feedback">나이를 입력하세요
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="user_tel">연락처</label>
+          <input type="tel" class="form-control" name="user_tel" id="user_tel" th:value="${user1.user_tel}" placeholder="01012345678" required>
+          <div class="invalid-feedback">
+            연락처를 입력하세요
+          </div>
+        </div>
+      </div>
 
+        <div class="mb-3">
+          <label for="user_role"></label>
+          <input type="hidden" class="form-control" name="user_role" id="user_role" value="USER">
+        </div>
 
-  <div>
-    <label>이메일</label>
-    <input type="email" name="useremail" th:value="${user1.useremail}" placeholder="이메일을 입력하세요.">
-    <span th:text="${valid_useremail}"></span>
-  </div>
-  <br/>
-
-  <div>
-    <label>나이</label>
-    <input type="text" name="user_age" th:value="${user1.user_age}" placeholder="나이를 입력하세요.">
-    <span th:text="${valid_user_age}"></span>
-  </div>
-  <br/>
-
-  <div>
-    <label>연락처</label>
-    <input type="tel" name="user_tel" th:value="${user1.user_tel}" placeholder="연락처를 입력하세요.">
-    <span th:text="${valid_user_tel}"></span>
-  </div>
-  <br/>
-
-<!--    <div class="form-group">-->
-<!--      <label for="user_comment">한줄 소개</label>-->
-<!--      <input type="text"-->
-<!--            class="form-control" id="user_comment" name="user_comment"-->
-<!--            placeholder="한줄 소개를 입력하세요">-->
-<!--    </div>-->
-<!--    <br/>-->
-
-<!--    <div class="form-group">-->
-<!--      <label for="user_profile">프로필</label>-->
-<!--      <input type="text"-->
-<!--            class="form-control" id="user_profile" name="user_profile"-->
-<!--            placeholder="프로필 사진을 등록하세요">-->
-<!--    </div>-->
-<!--    <br/>-->
-
-<!--    <div class="form-group">-->
-<!--      <label for="user_kakao">카카오 링크</label>-->
-<!--      <input type="text"-->
-<!--            class="form-control" id="user_kakao" name="user_kakao"-->
-<!--            placeholder="카카오링크를 입력하세요">-->
-<!--    </div>-->
-
-    <div class="form-group">
-      <label for="user_role"></label>
-      <input type="hidden"
-            class="form-control" id="user_role" name="user_role"
-            value="USER" >
-    </div>
-    <br/>
-
-
-    <button type="submit" class="btn btn-primary">가입하기</button>
-    <button type="button" onclick="history.go(-1);">이전으로</button>
+        <div class="mb-4"></div>
+        <button class="btn btn-primary btn-lg btn-block" type="submit">가입하기</button>
+      </form>
   </div>
 
-
-
-
-</form>
+  </div>
+  <footer class="my-3 text-center text-small">
+    <p class="mb-1">&copy; 2023</p>
+  </footer>
+</div>
 </body>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+<!--function check_pw(){-->
+
+<!--            var pw = document.getElementById('pw').value;-->
+
+<!--            if(pw.length < 4 || pw.length>8){-->
+<!--                window.alert('비밀번호는 4글자 이상, 8글자 이하만 가능합니다.');-->
+<!--                document.getElementById('pw').value='';-->
+<!--            }-->
+
+<!--            if(document.getElementById('pw').value !='' && document.getElementById('pw2').value!=''){-->
+<!--                if(document.getElementById('pw').value==document.getElementById('pw2').value){-->
+<!--                window.alert('비밀번호가 일치합니다.');-->
+
+<!--                }-->
+<!--                else{-->
+<!--                window.alert('비밀번호가 일치하지 않습니다.');-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+
+
+    window.addEventListener('load', () => {
+      const forms = document.getElementsByClassName('validation-form');
+
+      Array.prototype.filter.call(forms, (form) => {
+
+        form.addEventListener('submit', function (event) {
+
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+
+          form.classList.add('was-validated');
+
+        }, false);
+
+      });
+
+    }, false);
+
+
+
+  </script>
+
 
 </html>

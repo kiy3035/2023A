@@ -1,10 +1,15 @@
-<!DOCTYPE HTML>
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
 </head>
+
 <body>
 <div class="container">
     <table>
@@ -22,8 +27,8 @@
         <tr th:each="p : ${parents_s}">
             <td><img th:src="@{/parents_img/} + ${p.parents_filepath}" width="200" height="200"></td>
             <td>
-                <a th:href="@{'/admin/parentsList/' + ${p.parents_id}}">
-                    <span th:text="${p.parents_id}"></span>
+                <a th:href="@{'/admin/parentsList/' + ${p.parentsid}}">
+                    <span th:text="${p.parentsid}"></span>
                 </a>
             </td>
             <td th:text="${p.username}"></td>
@@ -36,6 +41,6 @@
         </tfoot>
     </table>
 </div> <!-- /container -->
-<button type="button" onclick="location.href = '/'">홈으로</button>
+<!--<button type="button" onclick="location.href = '/'">홈으로</button>-->
 </body>
 </html>

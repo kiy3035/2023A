@@ -1,0 +1,33 @@
+
+.dust-class{
+  width: 50%;
+  box-sizeing: border-box;
+  margin: 20px auto;
+  position: relative;
+  float: left;
+}
+.dust-class label{
+  display: inline-block;
+  position: absolute;
+  top: -5px;
+  left: 14px;
+  padding: 10px;
+  background: white;
+  font-size: 14px;
+  color: #888;
+  font-weight: bold;
+}
+.dust-class label span{
+  color: #da4841;
+  vertical-align: -1px;
+}
+.dust-class input{
+    width: 100%;
+    border: 1px solid #dddddd !important;
+    font-size: 1.4rem;
+    line-height: 1.45;
+    letter-spacing: -0.04rem;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 12px;
+}

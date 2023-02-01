@@ -1,40 +1,68 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security5"
+      xmlns="http://www.w3.org/1999/html">
 
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>홈 화면</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
     <div th:replace="../static/navbar.html :: aa"></div>
     <div th:replace="../static/navbar.html :: bb"></div>
 
+    <style>
+    img {
+          display : block;
+          margin : auto;
+          object-fit: cover;
+         }
+    </style>
 </head>
+
 <body>
 
-<h1>로그인 성공</h1>
-홈화면입니다
+    <h4><span th:text="${userid}"></span>님 환영합니다!</h4>
+    <h4> 회원님의 권한은 <span th:text="${user_role}"></span> 입니다 </h4>
 
-    <h2><span th:text="${userid}"></span>님 환영합니다!</h2>
-
-    <div>
-    <button sec:authorize="isAuthenticated()" type="button" onclick="location.href = '/Logout.do'">로그아웃</button>
-    <button type="button" onclick="location.href = '/board/write'">게시판 글쓰기</button>
-    <button type="button" onclick="location.href = '/board/list'">게시판 전체 글 목록</button>
-    </br>
-    </br>
-
-    <button sec:authorize access="hasRole('ROLE_MANAGER')" type="button" onclick="location.href = '/manager/signUp/Helper'">헬퍼 회원가입</button>
-    <button sec:authorize access="hasRole('ROLE_MANAGER')" type="button" onclick="location.href = '/manager/signUp/Parents'">학부모 회원가입</button>
-    </br>
-    </br>
-
-    <button sec:authorize ="hasRole('ROLE_ADMIN')" type="button" onclick="location.href = '/admin/userList'">회원 목록 조회</button>
-    <button sec:authorize ="hasRole('ROLE_ADMIN')" type="button" onclick="location.href = '/admin/helperList'">헬퍼 목록 조회</button>
-    <button sec:authorize ="hasRole('ROLE_ADMIN')" type="button" onclick="location.href = '/admin/parentsList'">학부모 목록 조회</button>
-
-
-</div>
-
+<img src="./random_img/어린이.png" id="Slide" width="500" height="300">
 </body>
 
+<script>
+        let slide = document.getElementById("Slide");
+        let imgArr = ["./random_img/어린이.png", "./random_img/어린이2.png",
+                      "./random_img/어린이3.png", "./random_img/어린이4.png"];
+
+        setInterval(()=>{
+            let ranNum = Math.floor(Math.random() * imgArr.length);
+            slide.src= imgArr[ranNum];
+        },2000);
+
+    </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    <button sec:authorize="isAuthenticated()" type="button" onclick="location.href = '/Logout.do'">로그아웃</button>-->
+<!--    <button type="button" onclick="location.href = '/board/write'">게시판 글쓰기</button>-->
+<!--    <button type="button" onclick="location.href = '/board/list'">게시판 전체 글 목록</button>-->
+
+
+<!--    <button sec:authorize ="hasRole('MANAGER')" type="button" onclick="location.href = '/manager/signUp/Helper'">헬퍼 회원가입</button>-->
+<!--    <button sec:authorize ="hasRole('MANAGER')" type="button" onclick="location.href = '/manager/signUp/Parents'">학부모 회원가입</button>-->
+
+
+<!--    <button sec:authorize ="hasRole('ADMIN')" type="button" onclick="location.href = '/admin/userList'">회원 목록 조회</button>-->
+<!--    <button sec:authorize ="hasRole('ADMIN')" type="button" onclick="location.href = '/admin/helperList'">헬퍼 목록 조회</button>-->
+<!--    <button sec:authorize ="hasRole('ADMIN')" type="button" onclick="location.href = '/admin/parentsList'">학부모 목록 조회</button>-->

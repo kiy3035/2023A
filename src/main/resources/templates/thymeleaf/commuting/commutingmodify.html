@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>게시물 수정폼</title>
+  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+</head>
+
+<style>
+  h2 {text-align : center;}
+  input, textarea { width : 80%; }
+</style>
+
+<body>
+  <br>
+  <h2><b>글 수정</b></h2>
+  <br>
+
+  <form th:action="@{/commuting/update/{comidx}(comidx = ${commuting1.comidx})}" method="post" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <td>작성자</td>
+        <td><span th:text="${commuting1.comwriter}"></span></td>
+
+        <td>
+          <span th:if="${commuting1.createdDate} == ${commuting1.modifiedDate}" >등록일</span>
+          <span th:unless="${commuting1.createdDate} == ${commuting1.modifiedDate}" >등록일</span>
+        </td>
+        <td>
+          <span th:if="${commuting1.createdDate} == ${commuting1.modifiedDate}" th:text="${commuting1.createdDate}"></span>
+          <span th:unless="${commuting1.createdDate} == ${commuting1.modifiedDate}" th:text="${commuting1.modifiedDate}"></span>
+        </td>
+
+      <tr>
+        <td>글번호</td>
+        <td><span th:text="${commuting1.comidx}"></span></td>
+
+        <td>분류</td>
+        <td><span th:switch="${commuting1.commenuidx}">
+          <span th:case="1">등/하원 부탁해요</span>
+          <span th:case="2">등/하원 맡을게요</span>
+        </span></td>
+      </tr>
+
+      <tr>
+        <td>글 제목</td>
+        <td colspan="3"><input name="comtitle" type="text" th:value="${commuting1.comtitle}"></td>
+      </tr>
+
+      <tr>
+        <td>글 내용</td>
+        <td colspan="3"><textarea name="comcont" th:text="${commuting1.comcont}"></textarea></td>
+      </tr>
+
+      <tr>
+        <td>파일첨부</td>
+        <td colspan="3"><input type="file" name="file">
+      </tr>
+
+    </table>
+    <br>
+    <div align="center">
+    <button class="blue" type="submit">수정</button>
+    <button class="red" type="reset">초기화</button>
+    </div>
+  </form>
+    </div>
+</body>
+
+</html>

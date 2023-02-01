@@ -1,12 +1,8 @@
 package teamgreen.abc.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -16,8 +12,10 @@ import javax.validation.constraints.NotBlank;
 @Entity
 public class Parents1 {
 
+
     @Id
-    private String parents_id;
+    @Column(name = "PARENTS_ID")
+    private String parentsid;
 
     @NotBlank(message = "사는 곳을 입력하세요")
     private String parents_addr;
@@ -31,7 +29,7 @@ public class Parents1 {
     private String parents_go;
     private String parents_come;
 
-    @NotBlank(message = "프로필 사진을 등록하세요")
+//    @NotEmpty(message = "프로필 사진을 등록하세요")
     private String parents_filepath;
 
 

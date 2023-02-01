@@ -39,9 +39,9 @@ public class HelperController {
     @GetMapping("/manager/signUp/Helper")
     public String signUp_helper(Helper1 helper1, Principal principal, Model model) {
 
-        String helper_id = principal.getName();
-        model.addAttribute("helper_id", helper_id);
-        helper1.setHelper_id(helper_id);
+        String helperid = principal.getName();
+        model.addAttribute("helperid", helperid);
+        helper1.setHelperid(helperid);
 
         log.info("헬퍼로 등록할 model아이디: " + model);
         log.info("헬퍼로 등록할 principal아이디: " + principal);

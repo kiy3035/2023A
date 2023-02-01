@@ -1,0 +1,169 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/messageList.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+
+</head>
+
+<body>
+<table class="table" style="margin: auto; text-align: center;">
+    <thead>
+    <tr>
+        <th>순번</th>
+        <th>보낸 사람</th>
+        <th>제목</th>
+        <th>읽음</th>
+        <th>날짜</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="m : ${message}">
+        <td th:text="${mStat.index}+1"></td>
+        <td th:text="${m.senderid}"></td>
+        <td>
+            <a data-bs-toggle="modal" data-bs-target="#messageview"
+               href="javascript:void(0);"
+               th:idx="${m.idx}"
+               th:title="${m.title}"
+               th:content="${m.content}"
+               th:onclick="view(this.getAttribute('idx'), this.getAttribute('title'), this.getAttribute('content'));">
+                <span th:text="${m.title}"></span>
+            </a>
+        </td>
+        <td>
+          <span th:switch="${m.read}">
+            <span th:case="0">O</span>
+            <span th:case="1">X</span>
+          </span>
+        </td>
+        <td th:text="${m.time}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<br>
+<form th:action="@{/messageList/receive/{receiverid}(receiverid = ${receiverid})}" method="GET">
+    <div align="center">
+        <input type="text" name="title" id="title" placeholder="제목으로 검색">
+        <button type="submit">검색</button>
+    </div>
+</form>
+
+<br>
+<div style="text-align : center;">
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
+        <a th:if="${page != nowPage}" th:href="@{/messageList/receive/(page = ${page - 1}, title = ${param.title})}" th:text="${page}"></a>
+        <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+    </th:block>
+</div>
+
+</body>
+
+<!-- 쪽지 상세 내용 -->
+<div class="modal fade" id="messageview" tabindex="-1" aria-labelledby="messageLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="message_h1">쪽지 내용</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <input type="hidden" id="messageIdx" />
+                        <input type="hidden" id="read" value="0"/>
+                        <label for="modaltitle" class="col-form-label">제목</label>
+                        <input type="text" class="form-control" id="modaltitle" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="modalcontent" class="col-form-label">내용</label>
+                        <textarea class="form-control" id="modalcontent" readonly></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="messageDelete();">삭제</button>
+                <button id="btn_close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+<!--var read = document.getElementById("read").value;-->
+<!--console.log("read밸류:" + read);-->
+
+
+const receiverid = "[[${receiverid}]]";
+console.log("받는이:" + receiverid);
+
+
+
+    // 쪽지 상세 보기
+    function view(idx, title, content, read) {
+
+    var read = document.getElementById("read").value;
+
+            $('#messageIdx').val(idx);
+            $('#modaltitle').val(title);
+            $('#modalcontent').val(content);
+            read;
+
+            console.log("쪽지상세보기idx:" + idx);
+            console.log(read);
+
+    let param = { idx : $('#messageIdx').val() }
+
+           $.ajax({
+                  url: contextPath + '/message/view',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                      console.log(result);
+                  location.href = contextPath + '/messageList/receive/' + receiverid
+                  },
+              });
+        }
+
+
+
+// 쪽지 삭제
+function messageDelete(){
+        if (confirm("쪽지를 삭제하시겠습니까?")) {
+
+        let param = {
+            idx : $('#messageIdx').val()
+        }
+
+           $.ajax({
+                  url: contextPath + '/message/delete',
+                  type: "post",
+                  data: JSON.stringify(param),
+                  contentType: "application/json; charset=utf-8",
+                  dataType: "json",
+
+                  success: function (result) {
+                      console.log(result);
+                      alert('쪽지가 삭제되었습니다');
+                      location.href = contextPath
+                  },
+              });
+        }
+}
+
+</script>
+
+
+</html>

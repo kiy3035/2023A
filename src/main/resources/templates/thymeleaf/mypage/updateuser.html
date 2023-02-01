@@ -11,73 +11,36 @@
 
 </head>
 <body>
-<form action="/signUp/create" method="post">
-    <div class="container">
 
-        <div class="form-group">
-            <label for="userid">아이디</label> <input
-                type="text" class="form-control" id="userid"
-                name="userid"  th:value="${userData.userid}" readonly>
-        </div>
-
-
-        <div class="form-group">
-            <label for="username">이름</label> <input
-                type="text"
-                class="form-control" id="username" name="username"
-                th:value="${userData.userData.username}">
-        </div>
-
-        <div class="form-group">
-            <label for="useremail">이메일</label> <input
-                type="email" class="form-control" id="useremail"
-                name="useremail"  th:value="${userData.userData.useremail}">
-        </div>
-
-        <div class="form-group">
-            <label for="user_age">나이</label> <input
-                type="text"
-                class="form-control" id="user_age" name="user_age"
-                th:value="${userData.userData.user_age}">
-        </div>
-
-        <div class="form-group">
-            <label for="user_tel">연락처</label> <input
-                type="text"
-                class="form-control" id="user_tel" name="user_tel"
-                th:value="${userData.userData.user_tel}">
-        </div>
-
-        <div class="form-group">
-            <label for="user_comment">한줄 소개</label> <input
-                type="text"
-                class="form-control" id="user_comment" name="user_comment"
-                th:value="${userData.userData.user_comment}">
-        </div>
-
-        <div class="form-group">
-            <label for="user_profile">프로필</label> <input
-                type="text"
-                class="form-control" id="user_profile" name="user_profile"
-                placeholder="프로필 사진을 등록하세요">
-        </div>
-
-        <div class="form-group">
-            <label for="user_kakao">카카오 링크</label> <input
-                type="text"
-                class="form-control" id="user_kakao" name="user_kakao"
-                placeholder="카카오링크를 입력하세요">
-        </div>
-
-        <div class="form-group">
-            <label for="user_role"></label> <input
-                type="hidden"
-                class="form-control" id="user_role" name="user_role"
-                value="user" >
-        </div>
-
-        <button type="submit" class="btn btn-primary">수정하기</button>
+<form class="row g-3" th:action="@{/myPage/userDataUpdate}" method="POST" th:object="${user1}" modelAttribute="user1">
+    <div class="col-md-6">
+        <label for="userid" class="form-label">아이디 </label>
+        <input type="email" class="form-control" id="userid" name="userid" th:value="${userData.userid}" readonly>
+    </div>
+    <div class="col-12">
+        <label for="role" class="form-label">등급</label>
+        <input type="text" class="form-control" id="role" name="user_role" th:value="${userData.user_role}" readonly>
+    </div>
+    <div class="col-12">
+        <label for="username" class="form-label">이름</label>
+        <input type="text" class="form-control" id="username" name="username" th:value="${userData.username}"->
+    </div>
+    <div class="col-12">
+        <label for="email" class="form-label">이메일</label>
+        <input type="text" class="form-control" id="email" name="useremail"th:value="${userData.useremail}"->
+    </div>
+    <div class="col-12">
+        <label for="age" class="form-label">나이</label>
+        <input type="text" class="form-control" id="age" name="user_age" th:value="${userData.user_age}"->
+    </div>
+    <div class="col-12">
+        <label for="user_tel" class="form-label">전화번호</label>
+        <input type="text" class="form-control" id="user_tel" name="user_tel" th:value="${userData.user_tel}"->
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">유저 정보수정</button>
     </div>
 </form>
+
 </body>
 </html>

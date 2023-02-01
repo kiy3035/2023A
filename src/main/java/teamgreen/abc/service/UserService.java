@@ -67,8 +67,6 @@ public class UserService {
                     .useremail(user1.getUseremail())
                     .user_age(user1.getUser_age())
                     .user_tel(user1.getUser_tel())
-                    .user_comment(user1.getUser_comment())
-                    .user_kakao(user1.getUser_kakao())
                     .user_role(user1.getUser_role())
                     .build();
 
@@ -81,7 +79,6 @@ public class UserService {
     // 유저 삭제 [관리자]
     public void deleteUser(String userid){
         userRepository.deleteUser(userid);
-
     }
 
 
@@ -97,15 +94,6 @@ public class UserService {
         Page<User1> userList = userRepository.findByUseridContaining(userid, pageable);
         return userList;
     }
-
-
-
-
-
-
-
-
-
 
 
 

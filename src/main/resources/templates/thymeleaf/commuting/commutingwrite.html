@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <title>등하원 작성폼</title>
+  <link rel="stylesheet" type="text/css" href="/css/Eclipse_Form.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+
+  <style>
+    textarea {
+    width: 80%;
+    height: 10em;
+  }
+  </style>
+</head>
+
+<body>
+
+  <form action="/commuting/writeprocess" id="form" method="post" enctype="multipart/form-data">
+    <table>
+      <tr>
+        <td>제목</td>
+        <td><input id="comtitle" name="comtitle" type="text" required></td>
+      </tr>
+
+      <tr>
+        <td>작성자</td>
+        <td><input  name="comwriter" th:value="${id}" readonly></td>
+      </tr>
+
+      <tr>
+        <td>내용</td>
+        <td><textarea id="comcont" name="comcont" required></textarea></td>
+      </tr>
+
+      <tr>
+        <td>게시판 분류</td>
+        <td>
+          <select id="commenuidx" name="commenuidx" size="1" required>
+            <option selected disabled >선택하세요</option>
+            <option value="1">1. 등/하원 부탁해요(학부모 → 헬퍼)</option>
+            <option value="2">2. 등/하원 맡을게요(헬퍼 → 학부모)</option>
+          </select>
+        </td>
+      </tr>
+
+      <tr>
+        <td>파일첨부</td>
+        <td><input type="file" name="file">
+      </tr>
+
+      <tr>
+        <label for="comview"></label>
+        <input type="hidden" id="comview" name="comview"
+               value=0 >
+      </tr>
+
+      <tr>
+        <label for="likecount"></label>
+        <input type="hidden" id="likecount" name="likecount"
+               value=0 >
+      </tr>
+
+      <tr>
+
+        <td colspan="2">
+          <div align="center">
+          <button class="white" type="submit">작성</button>
+          <button class="white" type="reset">초기화</button>
+          <button class="white" type="button" onclick="history.go(-1);">이전으로</button>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </form>
+</body>
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+
+</script>
+
+</script>
+
+</html>

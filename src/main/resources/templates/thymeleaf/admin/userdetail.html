@@ -1,6 +1,16 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<meta charset="utf-8">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+</head>
 
 <body>
 <div class="container">
@@ -13,8 +23,6 @@
             <th>이메일</th>
             <th>나이</th>
             <th>연락처</th>
-            <th>한줄 소개</th>
-            <th>카카오링크</th>
             <th>등급</th>
             <th>등급 변경</th>
         </tr>
@@ -26,8 +34,6 @@
             <td th:text="${u.useremail}"></td>
             <td th:text="${u.user_age}"></td>
             <td th:text="${u.user_tel}"></td>
-            <td th:text="${u.user_comment}"></td>
-            <td th:text="${u.user_kakao}"></td>
             <td th:text="${u.user_role}"></td>
             <td>
                 <select id="role">
@@ -35,47 +41,43 @@
                     <option value="MANAGER">MANAGER</option>
                     <option value="USER">USER</option>
                 </select>
-                <button type="button" th:userid="${u.userid}"
+                <button type="button" th:userid="${u.userid}" class="blue"
                         th:onclick="updateRole(this.getAttribute('userid'))">변경
                 </button>
+
+                <button type="button" th:userid="${u.userid}" class="red"
+                        th:onclick="deleteuser(this.getAttribute('userid'))">삭제
+                </button>
             </td>
-
-<!--            <div class="a">-->
-<!--                <a th:href="@{|/admin/deleteuser/${u.userid}|}">삭제</a>-->
-<!--            </div>-->
-
-            <td>
-                <button type="button" th:userid="${u.userid}"
-                        th:onclick="deleteuser(this.getAttribute('userid'))"/>
-                삭제</button></td>
         <tfoot>
-        <td colspan="5" class="tablefoot"></td>
         </tfoot>
     </table>
-
-    <div class="col">
-        <button class="w-50 btn btn-secondary btn-lg"
+</div>
+<br>
+    <div align="center">
+        <button class="white"
                 th:onclick="|location.href='@{/admin/userList}'|"
                 type="button">유저 목록
         </button>
-        <button type="button" onclick="location.href = '/'">홈으로</button>
+        <button type="button" class="white" onclick="location.href = '/'">홈으로</button>
     </div>
-</div>
+
 
 </tr>
 </tbody>
-</div> <!-- /container -->
+</div>
 </body>
+
 <link id="contextPathHolder" th:data-contextPath="${#httpServletRequest.getContextPath()}"/>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<!-- 자바스크립트 코드 추가 -->
 <script th:inline="javascript" type="text/javascript">
 
     var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
 
     function updateRole(userid) {
 

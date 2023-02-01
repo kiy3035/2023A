@@ -1,0 +1,161 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <title>등/하원 게시판</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+</head>
+
+<body>
+<div class="container">
+  <table>
+    <h2> 등/하원 게시판 </h2>
+      <h2><span th:text="${value}">zzz</span></h2>
+      <h2><span>zzz</span></h2>
+<!--      <h2><span th:text="${commenuidx}"></span></h2>-->
+
+     <div align="right">
+      <select th:commenuidx="${commenuidx}"
+              onchange="filter(this.getAttribute('commenuidx'), this.value);">
+          <option selected disabled>-- 선택 --</option>
+          <option id="id_view" value="view">조회수</option>
+          <option id="id_like" value="like">좋아요</option>
+      </select>
+     </div><br>
+
+      <thead>
+      <tr>
+        <th>글번호</th>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성시간</th>
+        <th>조회수</th>
+        <th>좋아요</th>
+        <th>게시판</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr th:each="commuting1 : ${list}">
+          <td th:text="${commuting1.comidx}">1</td>
+
+          <td>
+            <a th:text="${commuting1.comtitle}" th:href="@{/commuting/view/{comidx}(comidx=${commuting1.comidx})}"></a>
+          </td>
+
+          <td th:text="${commuting1.comwriter}"></td>
+
+          <td>
+          <span th:if="${commuting1.createdDate} == ${commuting1.modifiedDate}" th:text="${commuting1.createdDate}"></span>
+          <span th:unless="${commuting1.createdDate} == ${commuting1.modifiedDate}" th:text="${commuting1.modifiedDate}"></span>
+          </td>
+
+          <td th:text="${commuting1.comview}"></td>
+          <td th:text="${commuting1.likecount}"></td>
+
+          <td th:switch="${commuting1.commenuidx}">
+              <span th:case="1">등/하원 부탁해요</span>
+              <span th:case="2">등/하원 맡을게요</span>
+          </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+  <form th:action="@{/commuting/list/{commenuidx}(commenuidx = ${commenuidx})}" method="get">
+    <div align="center">
+      <input type="text" id="comtitle" name="comtitle" placeholder="제목으로 검색">
+      <button type="submit" class="blue">검색</button>
+    </div>
+      <br>
+  </form>
+
+<li sec:authorize ="hasRole('MANAGER')">
+<div align="center">
+<button type="button" class="orange" onclick="location.href = '/commuting/write'">등/하원 글쓰기</button>
+</div>
+</li>
+
+  <div style="text-align : center;">
+    <th:block th:each="page : ${#numbers.sequence(startPage, endPage, 1)}">
+      <a th:if="${page != nowPage}" th:href="@{/commuting/list/{commenuidx}/ (commenuidx = ${commenuidx}, page = ${page -1}, comtitle = ${param.comtitle})}" th:text="${page}"></a>
+      <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>
+    </th:block>
+  </div>
+</body>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script th:inline="javascript">
+
+
+
+
+    var contextPath = $('#contextPathHolder').attr('data-contextPath') ? $('#contextPathHolder').attr('data-contextPath') : '';
+
+var view = document.getElementById("id_view").value;
+var like = document.getElementById("id_like").value;
+
+console.log(view);
+console.log(like);
+<!--console.log(window.location.hostname);-->
+<!--console.log(window.location.search);-->
+
+
+        function filter(commenuidx, v){
+            console.log(v);
+
+            console.log("ㅋㅋ");
+            console.log(commenuidx);
+
+            let param = {
+                        commenuidx: commenuidx,
+                        v:v
+                        };
+
+if(document.getElementById("id_view")) {
+<!--        if(v == view){-->
+        alert("조회 순으로 나열11합니다");
+           $.ajax({
+                  url: contextPath + '/commuting/list/' + commenuidx,
+                  type: 'get',
+                  data: {commenuidx : commenuidx, v : v},
+
+                  success: function (result) {
+
+                    var vvv = "[[${value}]]";
+                    console.log("??!!!" + vvv);
+
+                    alert("ㅎㅇㅎㅇ");
+<!--                    location.href = contextPath + '/commuting/list/' + commenuidx;-->
+
+                  },
+              });
+           }
+
+
+        if(v == like){
+        alert("좋아요 순으로 나열합니다");
+           $.ajax({
+                  url: contextPath + '/commuting/list/like/' + commenuidx,
+                  type: 'get',
+                  data: {commenuidx},
+
+                  success: function (result) {
+                      console.log(result);
+                      location.href = contextPath + '/commuting/list/like/' + commenuidx;
+                  },
+              });
+
+           }
+
+        }
+
+</script>
+</html>

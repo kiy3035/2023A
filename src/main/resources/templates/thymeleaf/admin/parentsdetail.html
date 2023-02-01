@@ -1,6 +1,15 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<meta charset="utf-8">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+  <link rel="stylesheet" type="text/css" href="/css/button.css"/>
+
+  <div th:replace="../static/navbar.html :: aa"></div>
+  <div th:replace="../static/navbar.html :: bb"></div>
+</head>
 
 <body>
 <div class="container">
@@ -15,31 +24,37 @@
       <th>카카오 링크</th>
       <th>등원</th>
       <th>하원</th>
+      <th>자녀 수</th>
     </tr>
     </thead>
+
     <tbody>
     <tr th:each="p : ${parentsDetail}">
-      <td th:text="${p.parents_id}"></td>
+      <td>
+        <a th:href="@{'/admin/userList/' + ${p.parentsid}}">
+          <span th:text="${p.parentsid}"></span>
+        </a>
+      </td>
       <td th:text="${p.username}"></td>
       <td th:text="${p.parents_addr}"></td>
       <td th:text="${p.parents_comment}"></td>
       <td th:text="${p.parents_kakao}"></td>
       <td th:text="${p.parents_go}"></td>
       <td th:text="${p.parents_come}"></td>
-      <td>
+      <td th:text="${p.childcount}"></td>
 
 
     <tfoot>
-    <td colspan="5" class="tablefoot"></td>
     </tfoot>
   </table>
 
-  <div class="col">
-    <button class="w-50 btn btn-secondary btn-lg"
+  <br>
+  <div align="center">
+    <button class="white"
             th:onclick="|location.href='@{/admin/parentsList}'|"
             type="button">학부모 목록
     </button>
-    <button type="button" onclick="location.href = '/'">홈으로</button>
+    <button type="button" class="white" onclick="location.href = '/'">홈으로</button>
   </div>
 </div>
 

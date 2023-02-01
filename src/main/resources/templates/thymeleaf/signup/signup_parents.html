@@ -1,15 +1,54 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security4"
+      xmlns="http://www.w3.org/1999/html">
+
 <head>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no"
-          charset="utf-8">
+    <title>학부모 등록</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/boardlist.css"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <div th:replace="../static/navbar.html :: aa"></div>
+    <div th:replace="../static/navbar.html :: bb"></div>
+
+    <style>
+    body {
+      min-height: 100vh;
+
+      background: -webkit-gradient(linear, left bottom, right top, from(#92b5db), to(#1d466c));
+      background: -webkit-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -moz-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: -o-linear-gradient(bottom left, #92b5db 0%, #1d466c 100%);
+      background: linear-gradient(to top right, #92b5db 0%, #1d466c 100%);
+    }
+
+    .input-form {
+      max-width: 680px;
+
+      margin-top: 80px;
+      padding: 32px;
+
+      background: #fff;
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      -webkit-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      -moz-box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.15)
+    }
+  </style>
 </head>
 
 <body>
-<h2> 학부모 등록 </h2>
 
+<div class="container">
+    <div class="input-form-backgroud row">
+        <div class="input-form col-md-12 mx-auto">
+            <h4 class="mb-3">학부모 등록</h4>
 <form class="abc" role="form" th:action="@{/manager/signUp/Parents}" enctype="multipart/form-data"
       th:object="${parents1}" id="signupForm" modelAttribute="parents1" method="POST">
 
@@ -18,13 +57,13 @@
         <input multiple type="file" name="file">
         <span style="font-size:1em; color: red;" th:text="${valid_parents_filepath}"></span>
     </div>
-    <br/>
+    <br>
 
     <div>
-        <label for="parents_id" >아이디</label>
-        <input type="text"  id="parents_id" name="parents_id" th:value="${parents1.parents_id}" readonly >
+        <label for="parentsid">아이디</label>
+        <input type="text"  id="parentsid" name="parentsid" th:value="${parents1.parentsid}" readonly >
     </div>
-    <br/>
+    <br>
 
 
     <div>
@@ -37,7 +76,7 @@
         <input type="hidden" name="parents_addr" id="parents_addr" value="">
         <span style="font-size:1em; color: red;" th:text="${valid_parents_addr}"></span>
     </div>
-    <br/>
+    <br>
 
 
     <fieldset>
@@ -46,7 +85,8 @@
         <label><input type="checkbox" name="parents_go" value="Y">등원</label>
         <label><input type="checkbox" name="parents_come" value="Y">하원</label>
     </fieldset>
-    <br/>
+    <br>
+
 
 
     <div>
@@ -54,24 +94,28 @@
         <input type="text" id="parents_comment" name="parents_comment" th:value="${parents1.parents_comment}" placeholder="한줄 소개를 입력하세요.">
         <span style="font-size:1em; color: red;" th:text="${valid_parents_comment}"></span>
     </div>
-    <br/>
+    <br>
+
 
     <div>
         <label>카카오톡 오픈링크</label>
         <input type="text" name="parents_kakao" th:value="${parents1.parents_kakao}" placeholder="오픈링크를 입력하세요.">
         <span style="font-size:1em; color: red;" th:text="${valid_parents_kakao}"></span>
     </div>
-    <br/>
-
-
-    <button type="submit" class="btn btn-primary">가입하기</button>
-    <button type="button" onclick="history.go(-1);">이전으로</button>
-    </div>
+    <br>
 
 
 
-
+    <div class="mb-4"></div>
+    <button type="submit" class="btn btn-primary btn-lg btn-block">가입하기</button>
 </form>
+        </div>
+
+    </div>
+    <footer class="my-3 text-center text-small">
+        <p class="mb-1">&copy; 2023</p>
+    </footer>
+</div>
 </body>
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -134,7 +178,7 @@
 
 function addrdetail(parents_addr){
         var addrdetail = document.getElementById('sample6_detailAddress').value;
-        var parents_addr = addr + extraAddr + addrdetail
+        var parents_addr = addr + extraAddr + " " + addrdetail
         console.log(parents_addr)
 
        document.getElementById("parents_addr").value = parents_addr

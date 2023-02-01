@@ -45,10 +45,14 @@ public class AdminController {
 
         if (param.get("userid") == null || param.get("userid").equals("")) {
             list = userService.findAllAsc(pageable);
+            System.out.println("어드민1:" + list);
 //            model.addAttribute("users", userService.findAllAsc(pageable));
 
         } else {
-            list = userRepository.findByUseridContaining(param.get("userid").toString(), pageable);
+//되는거    list = userRepository.findByUseridContaining(param.get("userid").toString(), pageable);
+            list = userService.search(param.get("userid").toString(), pageable);
+            System.out.println("어드민2:" + list);
+
 //            Page<User1> searchList  = userRepository.findByUseridContaining(param.get("userid").toString(), pageable);
 //            model.addAttribute("users", searchList);
         }
@@ -62,6 +66,7 @@ public class AdminController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
+        System.out.println("후아:" + model);
         return "thymeleaf/admin/userlist";
     }
 
@@ -90,10 +95,10 @@ public class AdminController {
 
 
     // 헬퍼 상세 조회
-    @GetMapping("/helperList/{helper_id}")
-    public String helperDetail(@PathVariable("helper_id") String helper_id, Model model) {
+    @GetMapping("/helperList/{helperid}")
+    public String helperDetail(@PathVariable("helperid") String helperid, Model model) {
 
-        model.addAttribute("helperDetail", helperRepository.findHelperDetail(helper_id));
+        model.addAttribute("helperDetail", helperRepository.findHelperDetail(helperid));
 
         log.info("헬퍼 상세 조회" + model);
 
@@ -114,10 +119,10 @@ public class AdminController {
 
 
     // 학부모 상세 조회
-    @GetMapping("/parentsList/{parents_id}")
-    public String parentsDetail(@PathVariable("parents_id") String parents_id, Model model) {
+    @GetMapping("/parentsList/{parentsid}")
+    public String parentsDetail(@PathVariable("parentsid") String parentsid, Model model) {
 
-        model.addAttribute("parentsDetail", parentsRepository.findParentsDetail(parents_id));
+        model.addAttribute("parentsDetail", parentsRepository.findParentsDetail(parentsid));
 
         log.info("학부모 상세 조회" + model);
 
@@ -128,7 +133,7 @@ public class AdminController {
     // 유저 권한 변경
     @PostMapping("/modifyRole")
     @ResponseBody
-    public Map<String,Object> ModifyRole(@RequestBody Map<String, Object> param) throws IOException {
+    public Map<String, Object> ModifyRole(@RequestBody Map<String, Object> param) throws IOException {
 
         Map<String,Object>  map = new HashMap<>();
         log.info("등급 변경된 유저는 " + param);

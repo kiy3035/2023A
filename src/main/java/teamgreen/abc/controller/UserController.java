@@ -53,7 +53,7 @@ public class UserController {
 
     @PostMapping ("/signUp")
     public String signUp(@Valid User1 user1, Errors errors, Model model)throws IOException {
-        log.info("회원가입 실패");
+
         if(errors.hasErrors()){
             // 회원가입 실패시, 입력 데이터를 유지
             model.addAttribute("user1", user1);
@@ -62,10 +62,10 @@ public class UserController {
             Map<String, String> validatorResult = userService.validateHandling(errors);
             for (String key : validatorResult.keySet()) {
                 model.addAttribute(key, validatorResult.get(key));
-
             }
 
             // 회원가입 페이지로 다시 리턴
+            log.info("회원가입 실패");
             return "thymeleaf/signup/signup";
         }
 

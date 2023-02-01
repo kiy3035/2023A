@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -15,10 +14,19 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @Builder
 @Entity
+@SequenceGenerator(
+        name = "CHILD_SEQ_GENERATOR",
+        sequenceName = "P_CHILD1_SEQ",    // 매핑할 DB 시퀀스 이름
+        initialValue = 1, allocationSize = 1
+)
 public class P_Child1 {
 
     @Id
-    private String p_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+                    generator = "CHILD_SEQ_GENERATOR")
+    private Long p_childidx;
+
+    private String p_id;    // 부모id 외래키
 
     @NotBlank(message = "아이의 이름을 입력하세요")
     private String p_childname;

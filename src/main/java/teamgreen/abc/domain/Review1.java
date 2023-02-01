@@ -1,6 +1,8 @@
 package teamgreen.abc.domain;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,7 +14,9 @@ import java.util.Date;
         sequenceName = "REVIEW1_SEQ",   // 매핑할 DB 시퀀스 이름
         initialValue = 1, allocationSize = 1
 )
-public class Review1 {
+@Getter
+@NoArgsConstructor
+public class Review1 extends BaseTimeEntity {   // BaseTimeEntity를 상속함으로써 사용 가능!
 
     // 리뷰 글번호
     @Id // primary key를 의미
