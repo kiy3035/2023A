@@ -99,7 +99,7 @@ public class CommutingController {
 
     // 게시글 목록 + 검색
     @GetMapping("/commuting/list/{commenuidx}")
-    public String commutingList(Model model, Long comidx, @PathVariable("commenuidx") String commenuidx, @RequestParam(value="v", required=false) String param,
+    public String commutingList(Model model, Long comidx, @PathVariable("commenuidx") String commenuidx, @RequestParam(value="value", required=false) String param,
                                 @PageableDefault(page = 0, size = 5) Pageable pageable,
                                 String comtitle) {
 
@@ -108,39 +108,44 @@ public class CommutingController {
 
 
             Page<Commuting1> list = null;
-             Optional<String> oP = Optional.ofNullable(param);
+            Optional<String> oP = Optional.ofNullable(param);
 
 
 
-          if (comtitle == null || comtitle.equals("")) {
+          if (comtitle == null || comtitle.equals("")) {                        // 젤 기본 리스트
             list = commutingService.commuting1List(commenuidx, pageable);
              System.out.println("1단계");
-          } else {
+
+              if(!oP.isEmpty() && oP.get().contains("view")){                   // 조회순
+                  System.out.println("마스크맨");
+                  list = commutingService.commuting1ListByView(commenuidx, pageable);
+                  System.out.println("ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");
+                  model.addAttribute("value", param);
+              }
+
+              else if(!oP.isEmpty() && oP.get().contains("like")){               // 좋아요 순
+                  System.out.println("젤리맨");
+                  list = commutingService.commuting1ListByLike(commenuidx, pageable);
+                  System.out.println("ㅅㅅㅅㅅㅅㅅㅅㅅㅅ");
+                  model.addAttribute("value", param);
+              }
+
+          }
+
+          else {                                                                // 검색했을때 리스트
             list = commutingService.commuting1SearchList(commenuidx, comtitle, pageable);
              System.out.println("2단계");
+
           }
 
 
-             if(!oP.isEmpty() && oP.get().equals("view")){
-            System.out.println("마스크맨");
-            list = commutingService.commuting1ListByView(commenuidx, pageable);
-            System.out.println("ㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂㅂ");
-            model.addAttribute("value", param);
-
-        }
-
-
-//        if (param.equals("view")) {
-//            System.out.println("마스크맨");
-//            list = commutingRepository.findAllByViewDesc(commenuidx, pageable);
-//        }
 
 
         int nowPage = list.getPageable().getPageNumber() + 1;
         int startPage = Math.max(nowPage - 4, 1);
         int endPage = Math.min(nowPage + 5, list.getTotalPages());
 
-        model.addAttribute("value", param);
+//        model.addAttribute("value", param);
         model.addAttribute("commenuidx", commenuidx);
         model.addAttribute("list", list);
         model.addAttribute("nowPage", nowPage);
@@ -348,66 +353,5 @@ public class CommutingController {
         return map;
     }
 
-
-//    // 조회순으로 나열
-//    @GetMapping("/commuting/list/view/{commenuidx}")
-//    public String commutingListbyview(Model model, Long comidx, @PathVariable("commenuidx") String commenuidx,
-//                                      @PageableDefault(page = 0, size = 5, sort = "comview", direction = Sort.Direction.DESC) Pageable pageable,
-//                                      String comtitle) {
-//
-//
-//        Page<Commuting1> list = null;
-//
-//        if (comtitle == null || comtitle.equals("")) {
-//            list = commutingRepository.findAllByViewDesc(commenuidx, pageable);
-//        } else {
-//            list = commutingRepository.findByCommenuidxAndComtitleContaining(commenuidx, comtitle, pageable);
-//        }
-//
-//
-//        int nowPage = list.getPageable().getPageNumber() + 1;
-//        int startPage = Math.max(nowPage - 4, 1);
-//        int endPage = Math.min(nowPage + 5, list.getTotalPages());
-//
-//        model.addAttribute("commenuidx", commenuidx);
-//        model.addAttribute("list", list);
-//        model.addAttribute("nowPage", nowPage);
-//        model.addAttribute("startPage", startPage);
-//        model.addAttribute("endPage", endPage);
-//
-//        System.out.println("게시글 리스트 모델 by view : " + model);
-//        return "thymeleaf/commuting/commutinglist";
-//    }
-
-
-    // 좋아요 순으로 나열
-    @GetMapping("/commuting/list/like/{commenuidx}")
-    public String commutingListbylike(Model model, Long comidx, @PathVariable("commenuidx") String commenuidx,
-                                @PageableDefault(page = 0, size = 5, sort = "likecount", direction = Sort.Direction.DESC) Pageable pageable,
-                                String comtitle) {
-
-
-        Page<Commuting1> list = null;
-
-        if (comtitle == null || comtitle.equals("")) {
-            list = commutingRepository.findAllByLikeDesc(commenuidx, pageable);
-        } else {
-            list = commutingService.commuting1SearchList(commenuidx, comtitle, pageable);
-        }
-
-
-        int nowPage = list.getPageable().getPageNumber() + 1;
-        int startPage = Math.max(nowPage - 4, 1);
-        int endPage = Math.min(nowPage + 5, list.getTotalPages());
-
-        model.addAttribute("commenuidx", commenuidx);
-        model.addAttribute("list", list);
-        model.addAttribute("nowPage", nowPage);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-
-        System.out.println("게시글 리스트 모델 by like : " + model);
-        return "thymeleaf/commuting/commutinglist";
-    }
 
 }

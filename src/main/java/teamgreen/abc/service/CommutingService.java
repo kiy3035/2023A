@@ -71,6 +71,13 @@ public class CommutingService {
     }
 
 
+    // 게시글 조회순으로 보기
+    public Page<Commuting1> commuting1ListByLike(String commenuidx, Pageable pageable) {
+
+        return commutingRepository.findAllByLikeDesc(commenuidx, pageable);
+    }
+
+
     // 제목으로 게시글 검색
     public Page<Commuting1> commuting1SearchList(String comemenuidx, String comtitle, Pageable pageable) {
 

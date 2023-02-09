@@ -11,7 +11,7 @@ public interface UpRepository extends JpaRepository<Up, Long> {
 
 
     // 게시판 리스트
-    @Query("select u from Up u order by u.idx desc")
+    @Query(value = "select u from Up u order by u.idx desc")
     Page<Up> findAllDesc(Pageable pageable);
 
 

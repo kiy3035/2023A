@@ -24,12 +24,12 @@
     <div class="col">
         <div class="card mb-4 rounded-3 shadow-sm">
             <div class="card-header py-3" margin:auto>
-                <h2 class="my-0 fw-normal">아이디<i><span th:text="${userData.userid}"></span></i></h2>
-                <h2 class="my-0 fw-normal">이름<i><span th:text="${userData.username}"></span></i></h2>
-                <h2 class="my-0 fw-normal">이메일<i><span th:text="${userData.useremail}"></span></i></h2>
-                <h2 class="my-0 fw-normal">나이<i><span th:text="${userData.user_age}"></span></i></h2>
-                <h2 class="my-0 fw-normal">전화번호<i><span th:text="${userData.user_tel}"></span></i></h2>
-                <h2 class="my-0 fw-normal">등급<i><span th:text="${userData.user_role}"></span></i></h2>
+                <h2 class="my-0 fw-normal">아이디　<i><span th:text="${userData.userid}"></span></i></h2>
+                <h2 class="my-0 fw-normal">이름　<i><span th:text="${userData.username}"></span></i></h2>
+                <h2 class="my-0 fw-normal">이메일　<i><span th:text="${userData.useremail}"></span></i></h2>
+                <h2 class="my-0 fw-normal">나이　<i><span th:text="${userData.user_age}"></span></i></h2>
+                <h2 class="my-0 fw-normal">전화번호　<i><span th:text="${userData.user_tel}"></span></i></h2>
+                <h2 class="my-0 fw-normal">등급　<i><span th:text="${userData.user_role}"></span></i></h2>
             </div>
             <div class="card-body">
                 <a href="/myPage/updateUser"><button type="button" class="w-100 btn btn-lg btn-outline-primary">유저 정보수정</button></a>
@@ -47,14 +47,14 @@
                     <tbody>
                     <tr th:each="h : ${helperData}">
                         <span th:if="${h.helperid}!=null">
-                        <h2 class="my-0 fw-normal">아이디<i><span th:text="${h.helperid}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">이름<i><span th:text="${h.username}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">주소<i><span th:text="${h.helper_addr}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">한줄소개<i><span th:text="${h.helper_comment}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">카카오톡링크<i><span th:text="${h.helper_kakao}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">추천수<i><span th:text="${h.helper_reccount}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">등원<i><span th:text="${h.helper_go}"></span></i></h2>
-                        <h2 class="my-0 fw-normal">하원<i><span th:text="${h.helper_come}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">아이디　<i><span th:text="${h.helperid}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">이름　<i><span th:text="${h.username}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">주소　<i><span th:text="${h.helper_addr}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">한줄소개　<i><span th:text="${h.helper_comment}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">카카오톡링크　<i><span th:text="${h.helper_kakao}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">추천수　<i><span th:text="${h.helper_reccount}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">등원　<i><span th:text="${h.helper_go}"></span></i></h2>
+                        <h2 class="my-0 fw-normal">하원　<i><span th:text="${h.helper_come}"></span></i></h2>
                         <img th:src="@{/helper_img/} + ${helperDetail.helper_filepath}" width="200" height="200">
                         </span>
                     </tr>
@@ -80,13 +80,12 @@
             <div class="card-header py-3" margin:auto>
                 <tbody>
                 <tr th:each="p : ${parentsData}">
-                    <h2 class="my-0 fw-normal">아이디<i><span th:text="${p.parentsid}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">주소<i><span th:text="${p.parents_addr}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">한줄소개<i><span th:text="${p.parents_comment}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">카카오톡링크<i><span th:text="${p.parents_kakao}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">등원<i><span th:text="${p.parents_go}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">하원<i><span th:text="${p.parents_come}"></span></i></h2>
-                    <h2 class="my-0 fw-normal">하원<i><span th:text="${p.parents_come}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">아이디　<i><span th:text="${p.parentsid}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">주소　<i><span th:text="${p.parents_addr}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">한줄소개　<i><span th:text="${p.parents_comment}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">카카오톡링크　<i><span th:text="${p.parents_kakao}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">등원　<i><span th:text="${p.parents_go}"></span></i></h2>
+                    <h2 class="my-0 fw-normal">하원　<i><span th:text="${p.parents_come}"></span></i></h2>
                     <img th:src="@{/parents_img/} + ${parentsDetail.parents_filepath}" width="200" height="200">
                 </tr>
                 </tbody>

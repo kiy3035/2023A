@@ -17,16 +17,15 @@
 <div class="container">
   <table>
     <h2> 등/하원 게시판 </h2>
-      <h2><span th:text="${value}">zzz</span></h2>
-      <h2><span>zzz</span></h2>
+<!--      <h2><span th:text="${value}"></span></h2>-->
 <!--      <h2><span th:text="${commenuidx}"></span></h2>-->
 
      <div align="right">
       <select th:commenuidx="${commenuidx}"
               onchange="filter(this.getAttribute('commenuidx'), this.value);">
           <option selected disabled>-- 선택 --</option>
-          <option id="id_view" value="view">조회수</option>
-          <option id="id_like" value="like">좋아요</option>
+          <option id="id_view" name="name_view" value="view" th:selected="${value}=='view'">조회수</option>
+          <option id="id_like" name="name_like" value="like" th:selected="${value}=='like'">좋아요</option>
       </select>
      </div><br>
 
@@ -104,58 +103,62 @@ var like = document.getElementById("id_like").value;
 
 console.log(view);
 console.log(like);
-<!--console.log(window.location.hostname);-->
-<!--console.log(window.location.search);-->
 
 
         function filter(commenuidx, v){
-            console.log(v);
 
-            console.log("ㅋㅋ");
-            console.log(commenuidx);
+            console.log(v);
+            console.log("commenuidx :" + commenuidx);
 
             let param = {
-                        commenuidx: commenuidx,
-                        v:v
+<!--                    commenuidx: commenuidx,-->
+                        value : v
                         };
 
-if(document.getElementById("id_view")) {
-<!--        if(v == view){-->
-        alert("조회 순으로 나열11합니다");
-           $.ajax({
-                  url: contextPath + '/commuting/list/' + commenuidx,
-                  type: 'get',
-                  data: {commenuidx : commenuidx, v : v},
+console.log(param);
 
-                  success: function (result) {
+var tableData;
+$.get('http://localhost:8080/commuting/list/1/?value=view', function(response) {
+tableData = response;
 
-                    var vvv = "[[${value}]]";
-                    console.log("??!!!" + vvv);
-
-                    alert("ㅎㅇㅎㅇ");
-<!--                    location.href = contextPath + '/commuting/list/' + commenuidx;-->
-
-                  },
-              });
-           }
+ console.log(tableData)
 
 
-        if(v == like){
-        alert("좋아요 순으로 나열합니다");
-           $.ajax({
-                  url: contextPath + '/commuting/list/like/' + commenuidx,
-                  type: 'get',
-                  data: {commenuidx},
 
-                  success: function (result) {
-                      console.log(result);
-                      location.href = contextPath + '/commuting/list/like/' + commenuidx;
-                  },
-              });
+console.log("ggg");
+<!--if(document.getElementById("id_view")) {-->
 
-           }
+<!--        alert("조회 순으로 나열합니다");-->
+            var queryStr = new URLSearchParams(param).toString();
+            console.log(queryStr);      <!-- value=view 이래뜸 -->
 
-        }
+            location.href = contextPath + '/commuting/list/' + commenuidx + '/?' + queryStr;
+            $('input[name = name_view]').attr('value', view);
+<!--            }-->
+           });
+
+
+var tableData;
+$.get('http://localhost:8080/commuting/list/1/?value=like', function(response) {
+tableData = response;
+
+ console.log(tableData)
+
+
+<!--else if(document.getElementById("id_like")) {-->
+
+<!--        alert("좋아요 순으로 나열합니다");-->
+            var queryStr = new URLSearchParams(param).toString();
+            console.log(queryStr);      <!-- value=like 이래뜸 -->
+
+            location.href = contextPath + '/commuting/list/' + commenuidx + '/?' + queryStr;
+            $('input[name = name_like]').attr('value', like);
+           });
+
+
+
+
+}
 
 </script>
 </html>
